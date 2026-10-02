@@ -194,3 +194,23 @@ de escopo preserva rankings; a cápsula comunica limites e usa a logo neutra tra
 - T053-T056 establish expected behavior before T057-T061.
 - T057 blocks T058 and T060; T058-T059 enable T060; T061 follows the snapshot contract.
 - T062 can proceed in parallel with domain and adapter work; T063-T064 finish the extension.
+
+## Phase 17: User Story 8 - Baixar as artes editoriais (Priority: P2)
+
+**Goal**: Remover o fallback "Destaques retornados" e permitir baixar retrato e cápsula como PNG 3x.
+
+**Independent Test**: Cada aba editorial expõe um botão acessível que baixa somente sua arte em PNG
+3x; a cápsula sem gênero não exibe o antigo bloco substituto.
+
+- [x] T065 [P] [US8] Add artwork export scale and download behavior tests in tests/unit/download-artwork.test.ts
+- [x] T066 [US8] Add portrait/capsule download and removed-fallback coverage in tests/integration/spot-stats-page.test.tsx
+- [x] T067 [P] [US8] Implement local 3x PNG generation in src/presentation/services/download-artwork.ts
+- [x] T068 [US8] Build the reusable accessible action in src/presentation/components/ArtworkDownloadButton.tsx and src/styles/global.css
+- [x] T069 [US8] Wire export actions and remove the capsule fallback in src/presentation/components/MonthlyPortrait.tsx and src/presentation/components/SoundCapsule.tsx
+- [x] T070 Update download behavior and delivery status in README.md and TASKS.md
+- [x] T071 Run formatting, static analysis, tests and production build through npm run check
+
+## Artwork Download Dependencies
+
+- T065-T066 establish expected behavior before T067-T069; T067 blocks T068-T069.
+- T068-T069 complete the UI increment; T070-T071 finish documentation and quality gates.

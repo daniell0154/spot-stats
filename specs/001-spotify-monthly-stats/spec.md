@@ -167,6 +167,30 @@ durações, quantidade de eventos usados, sinal de aproximação e ressalva sobr
 4. **Given** qualquer paleta da cápsula, **When** sua marca é exibida, **Then** ela usa a versão neutra
    transparente da logo com contraste perceptível sem substituir a logo roxa global.
 
+---
+
+### User Story 8 - Baixar as artes editoriais (Priority: P2)
+
+Como ouvinte autenticado, quero baixar meu retrato musical e minha cápsula sonora em boa qualidade
+para guardar ou compartilhar as composições fora do site.
+
+**Why this priority**: Transforma as duas visualizações editoriais em artefatos reutilizáveis sem
+alterar os dados apresentados.
+
+**Independent Test**: Em cada aba editorial, o usuário aciona um controle identificado, recebe um
+arquivo PNG em alta resolução com a arte completa e não encontra o controle dentro da imagem.
+
+**Acceptance Scenarios**:
+
+1. **Given** o retrato mensal aberto, **When** o usuário escolhe baixar, **Then** recebe um PNG do
+   retrato em escala de alta qualidade com nome de arquivo reconhecível.
+2. **Given** a cápsula sonora aberta, **When** o usuário escolhe baixar, **Then** recebe um PNG da
+   cápsula em escala de alta qualidade com nome de arquivo reconhecível.
+3. **Given** uma falha ao gerar a imagem, **When** o download não termina, **Then** a arte permanece
+   visível e o usuário recebe uma mensagem para tentar novamente.
+4. **Given** uma cápsula sem gênero, **When** ela é exibida ou baixada, **Then** não aparece o bloco
+   substituto "Destaques retornados" nem uma contagem de itens nesse espaço.
+
 ### Edge Cases
 
 - O retorno de autorização contém erro, código ausente ou estado divergente.
@@ -182,6 +206,8 @@ durações, quantidade de eventos usados, sinal de aproximação e ressalva sobr
 - A imagem de marca não carrega ou é ampliada em uma tela pequena.
 - A lista recente contém faixas parcialmente ouvidas, repetidas, locais ou nenhum evento.
 - Uma sessão criada antes da nova permissão tenta acessar reproduções recentes.
+- Uma imagem externa ou fonte ainda não terminou de carregar quando o usuário inicia o download.
+- O navegador não consegue gerar ou baixar o PNG e precisa preservar a arte e permitir nova tentativa.
 
 ## Requirements _(mandatory)_
 
@@ -213,7 +239,8 @@ durações, quantidade de eventos usados, sinal de aproximação e ressalva sobr
 - **FR-015**: O retrato mensal MUST usar somente afinidade, contagens de itens retornados e gêneros
   recebidos; MUST NOT apresentar minutos ou reproduções como se fossem fornecidos pelo provedor.
 - **FR-016**: A cápsula sonora MUST mostrar imagem ou fallback do artista principal, identificação
-  da edição atual, até cinco artistas, até cinco faixas e gênero predominante ou contagem real.
+  da edição atual, até cinco artistas, até cinco faixas e o gênero predominante quando disponível;
+  MUST NOT exibir o bloco substituto "Destaques retornados".
 - **FR-017**: O retrato mensal e a cápsula sonora MUST receber paletas aleatórias distintas entre si,
   estáveis durante a visualização e escolhidas apenas entre combinações com contraste legível.
 - **FR-018**: O cabeçalho e o ícone do navegador MUST usar a imagem de marca fornecida, renomeada
@@ -231,6 +258,10 @@ durações, quantidade de eventos usados, sinal de aproximação e ressalva sobr
   impedir a exibição dos rankings.
 - **FR-024**: A marca dentro da cápsula MUST usar uma variante neutra transparente da logo; a logo
   roxa global MUST permanecer inalterada nos demais pontos da interface.
+- **FR-025**: O retrato mensal e a cápsula sonora MUST oferecer controles acessíveis para baixar
+  somente a respectiva arte como arquivo PNG, sem incluir o próprio controle na imagem.
+- **FR-026**: Cada download MUST gerar a arte em escala três vezes superior à exibida, usar nome de
+  arquivo estável e comunicar uma falha sem remover ou bloquear permanentemente a visualização.
 
 ### Key Entities _(include if feature involves data)_
 
@@ -266,6 +297,8 @@ durações, quantidade de eventos usados, sinal de aproximação e ressalva sobr
 - **SC-010**: Em 100% dos conjuntos de teste com eventos recentes, a estimativa corresponde à soma
   arredondada das durações de até 50 eventos e aparece com ressalva de aproximação; sem acesso ou
   eventos, o painel principal permanece utilizável.
+- **SC-011**: Em 100% dos testes das duas abas editoriais, um único acionamento gera o PNG correto em
+  escala 3x, e nenhuma imagem gerada inclui o controle de download ou "Destaques retornados".
 
 ## Assumptions
 
@@ -281,3 +314,4 @@ durações, quantidade de eventos usados, sinal de aproximação e ressalva sobr
 - A interface será oferecida em português do Brasil.
 - A estimativa recente considera a duração integral das faixas retornadas; o provedor não informa
   quanto de cada faixa foi efetivamente ouvido, e o limite recente não equivale a um mês completo.
+- Os PNGs são gerados localmente no navegador, sem envio ou armazenamento das artes em um servidor.

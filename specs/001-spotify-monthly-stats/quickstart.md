@@ -42,6 +42,9 @@ No client secret is used or expected.
 - With an older session lacking the new permission, confirm rankings still load and the capsule asks
   the user to reconnect for the estimate.
 - Confirm the capsule uses the neutral transparent logo while all global placements remain purple.
+- In both editorial tabs, use the high-quality PNG action and confirm the downloaded portrait and
+  capsule contain the complete artwork, retain their palette and do not include the download button.
+- With genres absent, confirm the capsule omits "Destaques retornados" and any substitute item count.
 
 Expected domain shapes and boundary behavior are defined in [data-model.md](data-model.md) and
 [contracts/spotify-ports.md](contracts/spotify-ports.md).

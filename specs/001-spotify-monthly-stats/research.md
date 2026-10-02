@@ -67,8 +67,9 @@
 ## Decision 9: Cápsula sonora sem tempo ouvido inventado
 
 - **Decision**: Adaptar a referência com capa do artista principal, edição atual, tops e gênero
-  predominante; na ausência de gênero, destacar a quantidade real de itens retornados.
-- **Rationale**: Preserva a hierarquia visual da referência usando apenas dados existentes no snapshot.
+  predominante; na ausência de gênero, omitir o bloco de destaque sem criar uma métrica substituta.
+- **Rationale**: Preserva a hierarquia visual da referência usando apenas dados existentes no snapshot
+  e evita um bloco de contagem que não agrega valor à composição.
 - **Alternatives considered**: somar duração das faixas (não representa tempo ouvido); repetir o
   mesmo pôster anterior (não atende à nova linguagem); incorporar a marca Spotify Premium (indevido).
 
@@ -116,3 +117,12 @@
   identidade global.
 - **Alternatives considered**: aplicar a logo roxa em toda paleta (contraste variável); trocar a logo
   global por neutra (contraria a identidade aprovada); usar filtro CSS (resultado inconsistente).
+
+## Decision 15: Exportação local das artes em PNG 3x
+
+- **Decision**: Serializar no navegador apenas o elemento do retrato ou da cápsula com `html-to-image`,
+  aguardando as fontes e usando escala 3x antes de iniciar o download com nome estável.
+- **Rationale**: Preserva os estilos, imagens e paletas atuais em boa resolução sem enviar dados do
+  usuário a um servidor; manter o controle fora do elemento impede que ele apareça no arquivo.
+- **Alternatives considered**: captura de tela manual (qualidade e enquadramento variáveis); canvas
+  desenhado item a item (duplica todo o layout); geração no servidor (mais infraestrutura e coleta).

@@ -20,6 +20,10 @@ reproduções recentes e apresenta o resultado como estimativa. O valor não med
 parcialmente ouvidas e não representa o total de um mês. Sessões antigas continuam funcionando sem
 essa estimativa até que o usuário se reconecte e conceda o novo escopo.
 
+O retrato musical e a cápsula sonora possuem uma ação para baixar somente a arte como PNG em
+alta qualidade (escala 3x), gerado no próprio navegador. O botão não aparece na imagem baixada e,
+quando não há gênero, a cápsula simplesmente omite o antigo bloco "Destaques retornados".
+
 ## Começar
 
 1. Crie um app no [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).

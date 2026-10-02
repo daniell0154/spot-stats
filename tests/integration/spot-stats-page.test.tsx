@@ -7,6 +7,12 @@ import type { GetMonthlyStats } from '../../src/application/use-cases/get-monthl
 import { SpotStatsPage } from '../../src/presentation/pages/SpotStatsPage';
 import { snapshot } from '../fixtures';
 
+const downloadArtworkAsPngMock = vi.hoisted(() => vi.fn());
+
+vi.mock('../../src/presentation/services/download-artwork', () => ({
+  downloadArtworkAsPng: downloadArtworkAsPngMock,
+}));
+
 function auth(active = false): AuthGateway {
   return {
     createAuthorizationUrl: vi.fn().mockResolvedValue('https://accounts.spotify.com/authorize'),
@@ -124,7 +130,7 @@ describe('SpotStatsPage', () => {
     expect(details).toHaveAttribute('aria-selected', 'true');
   });
 
-  it('usa contagem real quando a cápsula não tem imagem nem gênero', async () => {
+  it('não exibe o bloco de destaques retornados quando a cápsula não tem gênero', async () => {
     const getStats = {
       execute: vi.fn().mockResolvedValue({
         ...snapshot,
@@ -136,8 +142,37 @@ describe('SpotStatsPage', () => {
 
     fireEvent.click(await screen.findByRole('tab', { name: 'Cápsula sonora' }));
 
-    expect(screen.getByText('3 itens')).toBeInTheDocument();
+    expect(screen.queryByText(/destaques retornados/i)).not.toBeInTheDocument();
+    expect(screen.queryByText('3 itens')).not.toBeInTheDocument();
     expect(screen.getByLabelText(/capa sem imagem/i)).toBeInTheDocument();
+  });
+
+  it('baixa o retrato e a cápsula como PNG em alta qualidade', async () => {
+    downloadArtworkAsPngMock.mockResolvedValue(undefined);
+    const getStats = { execute: vi.fn().mockResolvedValue(snapshot) } as unknown as GetMonthlyStats;
+    render(<SpotStatsPage auth={auth(true)} getStats={getStats} />);
+
+    fireEvent.click(await screen.findByRole('tab', { name: 'Retrato mensal' }));
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Baixar Retrato mensal em PNG com alta qualidade' }),
+    );
+    await waitFor(() =>
+      expect(downloadArtworkAsPngMock).toHaveBeenCalledWith(
+        expect.any(HTMLElement),
+        'spotify-retrato-musical.png',
+      ),
+    );
+
+    fireEvent.click(screen.getByRole('tab', { name: 'Cápsula sonora' }));
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Baixar Cápsula sonora em PNG com alta qualidade' }),
+    );
+    await waitFor(() =>
+      expect(downloadArtworkAsPngMock).toHaveBeenCalledWith(
+        expect.any(HTMLElement),
+        'spotify-capsula-sonora.png',
+      ),
+    );
   });
 
   it('alterna para um retrato mensal com os dados disponíveis do snapshot', async () => {
