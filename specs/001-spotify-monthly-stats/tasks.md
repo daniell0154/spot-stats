@@ -142,3 +142,26 @@ real; ao alternar entre três abas por teclado, as duas artes mantêm paletas di
 - T038 fixes integration expectations before T040-T043.
 - T039 blocks palette application in T040-T043; T041 can proceed in parallel with T039.
 - T042 integrates T040 and T041; T043 follows the component markup; T044-T045 finish the extension.
+
+## Phase 13: User Story 6 - Reconhecer a identidade visual Spotify (Priority: P2)
+
+**Goal**: Reutilizar a logo fornecida e alinhar a identidade global à sua paleta roxa.
+
+**Independent Test**: Cabeçalho, conexão e cápsula usam o mesmo ativo renomeado, a cápsula mostra
+"Spotify" e a interface global permanece legível em desktop, 360 px e navegação por teclado.
+
+- [x] T046 [US6] Add shared logo, capsule label and document icon assertions in tests/integration/spot-stats-page.test.tsx
+- [x] T047 [P] [US6] Move and rename the supplied transparent image to public/spotify-purple-logo.png
+- [x] T048 [US6] Reuse the shared logo in src/presentation/components/AppHeader.tsx, src/presentation/components/LoginHero.tsx and src/presentation/components/SoundCapsule.tsx
+- [x] T049 [US6] Register the shared logo and purple browser theme in index.html
+- [x] T050 [US6] Apply the logo-derived global palette and responsive logo sizing in src/styles/global.css
+
+## Phase 14: Brand Polish & Quality Gates
+
+- [x] T051 Update delivery status and visual identity notes in TASKS.md and README.md
+- [x] T052 Run formatting, static analysis, tests and production build through npm run check
+
+## Brand Extension Dependencies
+
+- T046 fixes UI expectations before T048-T050; T047 provides the asset consumed by T048-T049.
+- T050 follows the component markup; T051-T052 finish the brand extension.

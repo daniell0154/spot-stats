@@ -1,5 +1,6 @@
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
+import documentMarkup from '../../index.html?raw';
 import { AppError } from '../../src/application/errors';
 import type { AuthGateway } from '../../src/application/ports/gateways';
 import type { GetMonthlyStats } from '../../src/application/use-cases/get-monthly-stats';
@@ -30,6 +31,17 @@ describe('SpotStatsPage', () => {
       'true',
     );
     expect(screen.getAllByRole('tab')).toHaveLength(3);
+    expect(screen.getByRole('img', { name: 'Logo Spotify' })).toHaveAttribute(
+      'src',
+      '/spotify-purple-logo.png',
+    );
+  });
+
+  it('registra a logo compartilhada e a cor roxa no documento', () => {
+    expect(documentMarkup).toContain(
+      '<link rel="icon" type="image/png" href="/spotify-purple-logo.png" />',
+    );
+    expect(documentMarkup).toContain('<meta name="theme-color" content="#100911" />');
   });
 
   it('alterna para a cápsula sonora com capa, edição e destaques reais', async () => {
@@ -44,6 +56,8 @@ describe('SpotStatsPage', () => {
     expect(screen.getByRole('heading', { name: 'Faixas em destaque' })).toBeInTheDocument();
     expect(screen.getByText(/50%.*mpb/i)).toBeInTheDocument();
     expect(screen.getByText(/aproximadamente 4 semanas/i)).toBeInTheDocument();
+    expect(screen.getByText('Spotify')).toBeInTheDocument();
+    expect(screen.queryByText('Spot/Stats')).not.toBeInTheDocument();
     expect(getStats.execute).toHaveBeenCalledOnce();
   });
 

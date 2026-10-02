@@ -119,6 +119,28 @@ artista principal, edição atual, top cinco artistas e faixas e gênero predomi
 4. **Given** as abas "Retrato mensal" e "Cápsula sonora", **When** o painel é carregado, **Then** cada
    arte recebe uma paleta aleatória diferente, com contraste legível, mantida até a página recarregar.
 
+---
+
+### User Story 6 - Reconhecer a identidade visual Spotify (Priority: P2)
+
+Como visitante ou ouvinte autenticado, quero reconhecer a identidade roxa fornecida em toda a
+experiência e a marca Spotify na cápsula para perceber uma apresentação visual coerente.
+
+**Why this priority**: Unifica a marca do site com o novo ativo visual sem alterar os dados ou o
+fluxo de autorização.
+
+**Independent Test**: Ao abrir a página inicial e a cápsula, o usuário encontra a mesma imagem de
+marca renomeada, vê "Spotify" na cápsula e navega por uma paleta global derivada do roxo da imagem.
+
+**Acceptance Scenarios**:
+
+1. **Given** qualquer tela do produto, **When** o cabeçalho é exibido, **Then** a imagem de marca
+   fornecida aparece como logo do site com identificação acessível do produto.
+2. **Given** a cápsula sonora aberta, **When** sua identificação editorial é exibida, **Then** o texto
+   mostra "Spotify" ao lado da mesma imagem, sem o rótulo anterior "Spot/Stats".
+3. **Given** a página inicial ou o painel, **When** a interface é exibida, **Then** fundo, superfícies,
+   destaques e estados de foco usam uma paleta roxa coerente com a logo e com contraste legível.
+
 ### Edge Cases
 
 - O retorno de autorização contém erro, código ausente ou estado divergente.
@@ -131,6 +153,7 @@ artista principal, edição atual, top cinco artistas e faixas e gênero predomi
 - A lista possui menos de cinco artistas ou faixas para preencher o retrato mensal.
 - O artista principal não possui imagem para ocupar a capa da cápsula sonora.
 - O sorteio de cores seleciona paletas próximas ou inadequadas para legibilidade.
+- A imagem de marca não carrega ou é ampliada em uma tela pequena.
 
 ## Requirements _(mandatory)_
 
@@ -165,6 +188,12 @@ artista principal, edição atual, top cinco artistas e faixas e gênero predomi
   da edição atual, até cinco artistas, até cinco faixas e gênero predominante ou contagem real.
 - **FR-017**: O retrato mensal e a cápsula sonora MUST receber paletas aleatórias distintas entre si,
   estáveis durante a visualização e escolhidas apenas entre combinações com contraste legível.
+- **FR-018**: O cabeçalho e o ícone do navegador MUST usar a imagem de marca fornecida, renomeada
+  com um nome estável e armazenada como ativo público do produto.
+- **FR-019**: A identificação editorial da cápsula sonora MUST mostrar a imagem de marca e o texto
+  "Spotify"; MUST NOT manter o rótulo "Spot/Stats" nesse local.
+- **FR-020**: A paleta global do site MUST derivar do roxo e do branco da imagem de marca, mantendo
+  contraste legível, foco visível e as paletas aleatórias distintas das duas artes editoriais.
 
 ### Key Entities _(include if feature involves data)_
 
@@ -192,6 +221,8 @@ artista principal, edição atual, top cinco artistas e faixas e gênero predomi
   ação, tanto com ponteiro quanto com teclado.
 - **SC-008**: Em 100% dos carregamentos testados, as duas composições editoriais usam paletas
   diferentes, preservam contraste legível e não mudam durante a navegação entre abas.
+- **SC-009**: Em 100% das telas verificadas, a logo fornecida aparece sem distorção, a cápsula usa o
+  texto "Spotify" e os controles continuam legíveis e perceptíveis por teclado em 360 px ou mais.
 
 ## Assumptions
 

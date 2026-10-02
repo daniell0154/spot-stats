@@ -36,3 +36,7 @@
   a calendar month or listening time.
 - The page assigns distinct curated palette identifiers to both editorial views once per mount; tab
   changes reuse those identifiers.
+- The shared header, browser icon and Spotify connection treatment use `/spotify-purple-logo.png`.
+- The capsule brand reads `Spotify` beside the shared logo; the product remains named Spot Stats in
+  its accessible header label and document title.
+- Global chrome uses the logo-derived purple palette while editorial random palettes stay distinct.

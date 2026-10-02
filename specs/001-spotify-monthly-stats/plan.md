@@ -11,7 +11,8 @@ Code with PKCE e apresenta perfil, top 10 artistas, top 10 faixas e gêneros agr
 `short_term` (aproximadamente quatro semanas), completa gêneros ausentes com detalhes oficiais dos
 mesmos artistas e oferece uma visão detalhada e um retrato mensal inspirado em pôster. A implementação
 será uma SPA React/TypeScript organizada em Clean Architecture, com domínio e casos de uso puros,
-portas explícitas, adapters para OAuth/Web API e apresentação isolada.
+portas explícitas, adapters para OAuth/Web API e apresentação isolada. A identidade visual usa a
+imagem roxa fornecida como ativo público no cabeçalho, favicon e cápsula, com paleta global derivada.
 
 ## Technical Context
 
@@ -112,6 +113,12 @@ em quatro camadas torna regras, orquestração, detalhes do Spotify e React subs
 - `visual-palettes.ts` mantém um conjunto fechado de paletas acessíveis e sorteia um par de índices
   distintos uma vez por montagem da página; ambos são repassados às artes como propriedades CSS.
 - A navegação de abas passa a percorrer três itens com setas, Home e End, preservando seleção e foco.
+- `public/spotify-purple-logo.png` preserva a transparência do ativo fornecido e oferece um caminho
+  estável para cabeçalho, favicon e cápsula, sem duplicação do arquivo.
+- `AppHeader`, `LoginHero` e `SoundCapsule` reutilizam o mesmo ativo; a cápsula troca somente seu
+  rótulo editorial para "Spotify", enquanto o nome do produto continua Spot Stats.
+- As variáveis globais de cor derivam do roxo e branco da logo; as paletas sorteadas das artes
+  permanecem distintas e independentes para preservar a variação já aprovada.
 
 ## Complexity Tracking
 

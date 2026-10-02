@@ -11,6 +11,10 @@ contraste controlado. Como o campo de gêneros de artista está obsoleto no Spot
 completar respostas vazias consultando os detalhes oficiais de cada artista; quando o próprio
 Spotify não classifica um artista, a interface mantém um estado vazio explícito.
 
+A identidade global usa a logo roxa fornecida, mantida como `public/spotify-purple-logo.png`, no
+cabeçalho, favicon, conexão e cápsula sonora. A paleta de navegação deriva do roxo e do branco da
+imagem sem remover a variação cromática aleatória das duas composições editoriais.
+
 ## Começar
 
 1. Crie um app no [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).

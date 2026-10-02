@@ -50,7 +50,8 @@ export function SoundCapsule({ snapshot, palette }: SoundCapsuleProps) {
       <div className="capsule-body">
         <header className="capsule-edition">
           <span className="capsule-brand">
-            <i aria-hidden="true">S</i> Spot/Stats
+            <img src="/spotify-purple-logo.png" alt="" />
+            Spotify
           </span>
           <time>{currentEditionLabel()}</time>
         </header>

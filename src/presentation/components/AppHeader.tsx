@@ -9,9 +9,7 @@ export function AppHeader({ profile, onLogout }: AppHeaderProps) {
   return (
     <header className="app-header">
       <a className="brand" href="/" aria-label="Spot Stats — início">
-        <span className="brand-icon" aria-hidden="true">
-          S
-        </span>
+        <img className="brand-icon" src="/spotify-purple-logo.png" alt="Logo Spotify" />
         <span>
           SPOT/<b>STATS</b>
         </span>

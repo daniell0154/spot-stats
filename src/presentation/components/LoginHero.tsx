@@ -23,9 +23,7 @@ export function LoginHero({ onConnect, loading, error }: LoginHeroProps) {
           direta e feita só para você.
         </p>
         <button className="primary-button" type="button" onClick={onConnect} disabled={loading}>
-          <span className="spotify-mark" aria-hidden="true">
-            ♪
-          </span>
+          <img className="spotify-mark" src="/spotify-purple-logo.png" alt="" />
           {loading ? 'Conectando…' : 'Conectar com Spotify'}
           <span aria-hidden="true">↗</span>
         </button>

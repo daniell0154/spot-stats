@@ -27,6 +27,10 @@ No client secret is used or expected.
   real genre or count highlight match the loaded snapshot without a second data request.
 - Move repeatedly among all three tabs and confirm the portrait and capsule keep two distinct palettes
   until reload; reload and confirm the pair may change while text remains legible.
+- Confirm the purple Spotify image appears without distortion in the header, browser icon, connect
+  action and capsule; confirm the capsule label reads "Spotify", not "Spot/Stats".
+- Confirm the global background, surfaces, actions and visible focus treatment follow the purple and
+  white logo palette while the two editorial palettes remain independently randomized.
 - Confirm the UI says "aproximadamente as últimas 4 semanas".
 - Revoke/expire authorization and confirm the app recovers or asks to reconnect.
 - Use logout and confirm refreshing the page stays disconnected.

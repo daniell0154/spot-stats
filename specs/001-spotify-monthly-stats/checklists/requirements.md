@@ -32,5 +32,6 @@
 ## Notes
 
 - Revalidated on 2026-10-02 after adding resilient genre metadata and the authenticated monthly
-  portrait tab; revalidated again after adding the sound capsule and stable distinct random palettes.
-  All criteria pass and the feature is ready for `$speckit-plan`.
+  portrait tab; revalidated again after adding the sound capsule, stable distinct random palettes,
+  shared logo and purple global identity. All criteria pass and the feature is ready for
+  `$speckit-plan`.

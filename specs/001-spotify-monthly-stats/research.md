@@ -79,3 +79,14 @@
 - **Rationale**: Entrega variedade sem cintilação entre renders, colisão de cores ou contraste imprevisível.
 - **Alternatives considered**: gerar cores RGB livres (contraste inseguro); sortear dentro de cada
   componente (pode repetir e mudar ao remontar); persistir escolha (retenção desnecessária).
+
+## Decision 11: Ativo único e paleta global derivados da logo fornecida
+
+- **Decision**: Preservar o PNG transparente, renomeá-lo para `spotify-purple-logo.png` e reutilizar
+  o mesmo arquivo público no cabeçalho, favicon, conexão e cápsula; derivar a interface global do
+  roxo profundo e do branco presentes na imagem.
+- **Rationale**: Um único ativo evita divergência entre marcas e o roxo cria continuidade visual sem
+  interferir nas paletas aleatórias das artes editoriais.
+- **Alternatives considered**: converter para outro formato (perda ou trabalho sem benefício);
+  duplicar a imagem por componente (manutenção desnecessária); substituir todas as paletas editoriais
+  por roxo (eliminaria a variedade pedida anteriormente).
