@@ -31,6 +31,9 @@
 
 ## Notes
 
+- Revalidated FR-027–FR-029 / US9: local import, UTC month totals, incomplete coverage, privacy,
+  file limits and recovery have explicit acceptance criteria. All 16 checklist criteria pass.
+
 - Revalidated on 2026-10-02 after adding resilient genre metadata and the authenticated monthly
   portrait tab; revalidated again after adding the sound capsule, stable distinct random palettes,
   shared logo, purple global identity, limited recent-duration estimate, neutral capsule logo and

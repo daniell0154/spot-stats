@@ -14,6 +14,11 @@ last four weeks. It uses GitHub Spec Kit 1.0.13 and Clean Architecture.
 4. Mark completed work in `specs/001-spotify-monthly-stats/tasks.md`; keep root `TASKS.md` as the
    human-readable delivery summary.
 5. Run `npm run check` before declaring implementation complete.
+6. Standing user authorization: after implementing requested changes and passing validation,
+   commit the scoped changes and push the current branch to its existing origin remote without
+   asking again. Include pending fixes made in this conversation. Never include unrelated user
+   changes, credentials or imported listening files; never force-push. If validation or push fails,
+   report the blocker instead of claiming publication. A later user instruction overrides this rule.
 
 ## Architecture boundaries
 

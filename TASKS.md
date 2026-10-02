@@ -22,6 +22,9 @@ The executable SDD backlog is [specs/001-spotify-monthly-stats/tasks.md](specs/0
 - [x] Neutral transparent Spotify logo used only inside sound-capsule cards
 - [x] High-quality PNG downloads for the monthly portrait and sound capsule
 - [x] Remove the capsule's "Destaques retornados" fallback
+- [x] Correct centered artwork clipping in PNG downloads
+- [x] Import extended Spotify history locally with actual monthly hours/minutes in the capsule
+- [x] Standing authorization for scoped commit/push after successful validation
 
 Task IDs, dependencies, acceptance criteria and file-level traceability are maintained in the
 feature backlog to keep one source of delivery truth.

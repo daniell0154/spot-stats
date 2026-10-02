@@ -126,3 +126,12 @@
   usuário a um servidor; manter o controle fora do elemento impede que ele apareça no arquivo.
 - **Alternatives considered**: captura de tela manual (qualidade e enquadramento variáveis); canvas
   desenhado item a item (duplica todo o layout); geração no servidor (mais infraestrutura e coleta).
+
+## Decision 16: Extended history for actual listening duration
+
+- **Decision**: Import extracted extended-history JSON locally, summing recorded `ms_played` for
+  music, grouped by UTC ending month. Retain only monthly summaries after processing.
+- **Rationale**: Spotify documents actual milliseconds played in its exported history, while recent
+  API track durations are not actual listened time. Source: https://support.spotify.com/za-en/article/understanding-your-data/
+- **Alternatives considered**: ongoing polling cannot recover past months; backend uploads add
+  unnecessary retention; ZIP and older account-data formats deferred to keep validation explicit.

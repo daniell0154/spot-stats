@@ -26,6 +26,24 @@ quando não há gênero, a cápsula simplesmente omite o antigo bloco "Destaques
 
 ## Começar
 
+### Tempo real pelo histórico importado
+
+Na página de [privacidade da conta Spotify](https://www.spotify.com/account/privacy/), solicite
+o **Histórico de streaming estendido**. Quando o Spotify disponibilizar o download, extraia o ZIP
+e importe os JSONs de músicas (`Streaming_History_Audio` ou `endsong`) pelo painel do site.
+Selecione todos os arquivos relevantes juntos (até 50 arquivos / 100 MB); uma nova importação
+substitui a anterior. ZIPs e o formato antigo de dados da conta não são aceitos neste fluxo.
+
+Escolha um mês em UTC para ver o tempo efetivamente registrado: 1.000 minutos aparecem como
+16h 40min. A cápsula e seu PNG usam esse total, identificado separadamente dos rankings atuais.
+Podcasts/registros inválidos são excluídos, eventos idênticos são deduplicados e o período observado
+é informado. Arquivos faltantes deixam o mês incompleto; a importação não verifica a titularidade
+da conta. Tudo fica em memória, sem upload, e é apagado ao remover, sair ou recarregar.
+
+O Spotify precisa disponibilizar esses arquivos; o login OAuth não baixa esse histórico automaticamente.
+
+### Configuração
+
 1. Crie um app no [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).
 2. Cadastre exatamente `http://127.0.0.1:5173/callback` como Redirect URI.
 3. Copie `.env.example` para `.env.local` e informe `VITE_SPOTIFY_CLIENT_ID`.

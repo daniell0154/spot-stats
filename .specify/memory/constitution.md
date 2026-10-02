@@ -1,6 +1,7 @@
 <!--
 Sync Impact Report
-- Version change: template -> 1.0.0
+- Version change: 1.0.0 -> 1.1.0
+- Added standing user authorization for scoped commits and pushes after validation.
 - Added principles: Clean Architecture; Privacy and OAuth Security; Test-First Contracts;
   Resilient Integrations; Simplicity and Traceability
 - Added sections: Technical Constraints; Development Workflow and Quality Gates
@@ -58,6 +59,11 @@ name concrete files and requirement links. Before completion, formatting, static
 tests, integration tests, and a production build MUST pass. Convergence MUST compare the current
 code against all approved artifacts and append any remaining work.
 
+After requested implementation and successful validation, the agent MUST commit the scoped changes
+and push the current branch to its existing origin remote under the user's standing authorization.
+This does not authorize force-pushes, unrelated changes, credentials or imported listening files.
+Failures MUST be reported; later explicit user instructions override this delivery preference.
+
 ## Governance
 
 This constitution supersedes conflicting project guidance. Amendments require a documented reason,
@@ -67,4 +73,4 @@ constitutional compliance; exceptions require written justification in the relev
 instructions live in `AGENTS.md`, and feature delivery status lives in `TASKS.md` plus the active
 Spec Kit `tasks.md`.
 
-**Version**: 1.0.0 | **Ratified**: 2026-10-01 | **Last Amended**: 2026-10-01
+**Version**: 1.1.0 | **Ratified**: 2026-10-01 | **Last Amended**: 2026-10-02

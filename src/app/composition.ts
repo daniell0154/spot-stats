@@ -2,6 +2,10 @@ import { GetMonthlyStats } from '../application/use-cases/get-monthly-stats';
 import { SpotifyAuthGateway } from '../infrastructure/auth/spotify-auth-gateway';
 import { SpotifyApiGateway } from '../infrastructure/http/spotify-api-gateway';
 import { BrowserSessionRepository } from '../infrastructure/storage/session-storage';
+import { ImportListeningHistory } from '../application/use-cases/import-listening-history';
+import { SpotifyHistoryParser } from '../infrastructure/mappers/spotify-history-parser';
+
+export const historyImporter = new ImportListeningHistory(new SpotifyHistoryParser());
 
 const sessionRepository = new BrowserSessionRepository();
 

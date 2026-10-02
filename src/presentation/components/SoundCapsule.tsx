@@ -2,10 +2,13 @@ import { useRef } from 'react';
 import type { MonthlySnapshot } from '../../domain/entities/stats';
 import { visualPaletteStyle, type VisualPalette } from '../styles/visual-palettes';
 import { ArtworkDownloadButton } from './ArtworkDownloadButton';
+import type { ListeningMonth } from '../../domain/entities/listening-history';
+import { formatListeningTime } from '../services/format-listening-time';
 
 interface SoundCapsuleProps {
   snapshot: MonthlySnapshot;
   palette: VisualPalette;
+  listeningMonth?: ListeningMonth | null;
 }
 
 function currentEditionLabel() {
@@ -14,7 +17,7 @@ function currentEditionLabel() {
     .replace(' de ', ' ');
 }
 
-export function SoundCapsule({ snapshot, palette }: SoundCapsuleProps) {
+export function SoundCapsule({ snapshot, palette, listeningMonth }: SoundCapsuleProps) {
   const leadingArtist = snapshot.artists[0];
   const leadingGenre = snapshot.genres[0];
   const artworkRef = useRef<HTMLElement>(null);
@@ -110,7 +113,21 @@ export function SoundCapsule({ snapshot, palette }: SoundCapsuleProps) {
           ) : null}
 
           <div className="capsule-listening">
-            {snapshot.recentListeningEstimate ? (
+            {listeningMonth ? (
+              <>
+                <span>Música ouvida · {listeningMonth.month} (UTC)</span>
+                <strong>{formatListeningTime(listeningMonth)}</strong>
+                <small>
+                  {Math.floor(listeningMonth.playedMs / 60_000).toLocaleString('pt-BR')} minutos
+                  registrados · histórico importado.
+                </small>
+                <small>
+                  Registros de {listeningMonth.firstEvent.slice(0, 10)} a{' '}
+                  {listeningMonth.lastEvent.slice(0, 10)}. Total dos arquivos fornecidos; o mês pode
+                  estar incompleto. Rankings acima: afinidade atual.
+                </small>
+              </>
+            ) : snapshot.recentListeningEstimate ? (
               <>
                 <span>Duração estimada dos eventos recentes</span>
                 <strong>≈ {snapshot.recentListeningEstimate.minutes} minutos</strong>

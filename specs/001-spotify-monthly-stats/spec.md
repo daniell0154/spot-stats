@@ -191,7 +191,29 @@ arquivo PNG em alta resolução com a arte completa e não encontra o controle d
 4. **Given** uma cápsula sem gênero, **When** ela é exibida ou baixada, **Then** não aparece o bloco
    substituto "Destaques retornados" nem uma contagem de itens nesse espaço.
 
+### User Story 9 - Importar tempo real registrado (Priority: P2)
+
+Como ouvinte, quero importar meu histórico estendido e escolher um mês para visualizar o tempo
+efetivamente registrado pelo Spotify nas músicas desse período.
+
+**Independent Test**: Importar dois arquivos sobrepostos, escolher um mês e conferir minutos,
+horas, cobertura e o total na cápsula; remover ou sair apaga os dados da experiência.
+
+**Acceptance Scenarios**:
+
+1. **Given** arquivos válidos com 60.000.000 ms no mês, **When** importados, **Then** aparecem
+   1.000 minutos e 16h40, sem contar eventos repetidos entre arquivos.
+2. **Given** meses diferentes, **When** outro mês é selecionado, **Then** o total e a cobertura
+   mudam na tela e na cápsula, enquanto os rankings continuam identificados como afinidade atual.
+3. **Given** importação válida, **When** outro arquivo é inválido, **Then** uma mensagem acionável
+   aparece e o resultado anterior é preservado.
+4. **Given** histórico importado, **When** removido, a sessão é encerrada ou a página recarrega,
+   **Then** os dados importados deixam de estar disponíveis.
+
 ### Edge Cases
+
+- Imported files may overlap, contain podcasts, invalid rows or only part of a calendar month.
+- Invalid/oversized imports must preserve the previous successful import.
 
 - O retorno de autorização contém erro, código ausente ou estado divergente.
 - O acesso expira durante a consulta e precisa ser renovado uma vez.
@@ -212,6 +234,18 @@ arquivo PNG em alta resolução com a arte completa e não encontra o controle d
 ## Requirements _(mandatory)_
 
 ### Functional Requirements
+
+- **FR-027**: Users MUST be able to import multiple extracted Spotify extended-history JSON files
+  locally and select a calendar month (UTC) to see actual recorded music listening minutes and hours.
+  Only music events with valid timestamps and non-negative integer played milliseconds count;
+  duplicate events are counted once and excluded/duplicate row counts are reported.
+- **FR-028**: Imported totals MUST show the selected month and observed date range, state that missing
+  files can make totals incomplete, and remain separate from current affinity rankings. Capsule PNGs
+  MUST include the selected imported total when available. Without an import, recent estimates remain
+  explicitly limited to recent events. No automatic monthly-history retrieval is implied.
+- **FR-029**: Imports MUST remain in memory, be removable, clear on logout/reload, require no new OAuth
+  scopes, and never upload contents. The UI MUST explain how to request and extract the extended history.
+  Malformed/unsupported/empty files and imports exceeding 50 files or 100 MiB MUST show actionable errors.
 
 - **FR-001**: O sistema MUST permitir que o visitante conecte sua conta Spotify com consentimento.
 - **FR-002**: O sistema MUST solicitar somente permissões de leitura necessárias ao perfil básico
@@ -301,6 +335,10 @@ arquivo PNG em alta resolução com a arte completa e não encontra o controle d
   escala 3x, e nenhuma imagem gerada inclui o controle de download ou "Destaques retornados".
 
 ## Assumptions
+
+- Extended-history JSON files are imported after ZIP extraction; account-data JSON and ZIP import are
+  outside this increment. Monthly grouping uses each event's ending timestamp in UTC; totals cover only
+  music events present in selected files, not podcasts, videos or a guaranteed complete month.
 
 - O Spotify fornece afinidade em `short_term`, equivalente a aproximadamente quatro semanas; ele
   não fornece uma contagem mensal exata de reproduções por esse recurso.

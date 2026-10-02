@@ -9,10 +9,13 @@ import { SoundCapsule } from '../components/SoundCapsule';
 import { StatsOverview } from '../components/StatsOverview';
 import { useSpotStats } from '../hooks/useSpotStats';
 import { createRandomPalettePair } from '../styles/visual-palettes';
+import type { ImportListeningHistory } from '../../application/use-cases/import-listening-history';
+import { ListeningHistoryExperience } from '../components/ListeningHistoryExperience';
 
 interface SpotStatsPageProps {
   auth: AuthGateway;
   getStats: GetMonthlyStats;
+  historyImporter?: ImportListeningHistory;
 }
 
 type DashboardTab = 'details' | 'portrait' | 'capsule';
@@ -24,7 +27,7 @@ const TAB_LABELS: Record<DashboardTab, string> = {
   capsule: 'Cápsula sonora',
 };
 
-export function SpotStatsPage({ auth, getStats }: SpotStatsPageProps) {
+export function SpotStatsPage({ auth, getStats, historyImporter }: SpotStatsPageProps) {
   const { view, connect, retry, logout } = useSpotStats(auth, getStats);
   const [activeTab, setActiveTab] = useState<DashboardTab>('details');
   const [palettes] = useState(() => createRandomPalettePair());
@@ -102,37 +105,47 @@ export function SpotStatsPage({ auth, getStats }: SpotStatsPageProps) {
     <>
       <AppHeader profile={view.snapshot.profile} onLogout={logout} />
       <main className="dashboard" id="conteudo">
-        <div className="dashboard-tabs" role="tablist" aria-label="Visualizações do período">
-          {TAB_ORDER.map((tab) => (
-            <button
-              key={tab}
-              id={`tab-${tab}`}
-              type="button"
-              role="tab"
-              aria-selected={activeTab === tab}
-              aria-controls={`panel-${tab}`}
-              tabIndex={activeTab === tab ? 0 : -1}
-              onClick={() => setActiveTab(tab)}
-              onKeyDown={selectTabFromKeyboard}
-            >
-              {TAB_LABELS[tab]}
-            </button>
-          ))}
-        </div>
-        {activeTab === 'details' ? (
-          <div id="panel-details" role="tabpanel" aria-labelledby="tab-details">
-            <StatsOverview snapshot={view.snapshot} />
-            <RankedLists artists={view.snapshot.artists} tracks={view.snapshot.tracks} />
-          </div>
-        ) : activeTab === 'portrait' ? (
-          <div id="panel-portrait" role="tabpanel" aria-labelledby="tab-portrait">
-            <MonthlyPortrait snapshot={view.snapshot} palette={palettes[0]} />
-          </div>
-        ) : (
-          <div id="panel-capsule" role="tabpanel" aria-labelledby="tab-capsule">
-            <SoundCapsule snapshot={view.snapshot} palette={palettes[1]} />
-          </div>
-        )}
+        <ListeningHistoryExperience key={view.snapshot.profile.id} importer={historyImporter}>
+          {(listeningMonth) => (
+            <>
+              <div className="dashboard-tabs" role="tablist" aria-label="Visualizações do período">
+                {TAB_ORDER.map((tab) => (
+                  <button
+                    key={tab}
+                    id={`tab-${tab}`}
+                    type="button"
+                    role="tab"
+                    aria-selected={activeTab === tab}
+                    aria-controls={`panel-${tab}`}
+                    tabIndex={activeTab === tab ? 0 : -1}
+                    onClick={() => setActiveTab(tab)}
+                    onKeyDown={selectTabFromKeyboard}
+                  >
+                    {TAB_LABELS[tab]}
+                  </button>
+                ))}
+              </div>
+              {activeTab === 'details' ? (
+                <div id="panel-details" role="tabpanel" aria-labelledby="tab-details">
+                  <StatsOverview snapshot={view.snapshot} />
+                  <RankedLists artists={view.snapshot.artists} tracks={view.snapshot.tracks} />
+                </div>
+              ) : activeTab === 'portrait' ? (
+                <div id="panel-portrait" role="tabpanel" aria-labelledby="tab-portrait">
+                  <MonthlyPortrait snapshot={view.snapshot} palette={palettes[0]} />
+                </div>
+              ) : (
+                <div id="panel-capsule" role="tabpanel" aria-labelledby="tab-capsule">
+                  <SoundCapsule
+                    snapshot={view.snapshot}
+                    palette={palettes[1]}
+                    listeningMonth={listeningMonth}
+                  />
+                </div>
+              )}
+            </>
+          )}
+        </ListeningHistoryExperience>
         <footer>
           <p>
             Os rankings refletem afinidade calculada pelo Spotify, não contagem exata de

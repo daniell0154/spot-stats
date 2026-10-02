@@ -17,6 +17,14 @@ No client secret is used or expected.
 
 ## Validate
 
+- Request Extended streaming history from the Spotify account privacy page, extract the received ZIP
+  and select music JSON files together. No extra OAuth scope is required. Choose a UTC month and
+  verify recorded hours/minutes, observed dates, ignored rows and duplicates. Only supplied events
+  count; import does not verify account ownership or guarantee complete calendar-month coverage.
+- Switch to the capsule and download a PNG: the imported monthly total must replace the recent
+  estimate while rankings remain labeled as current affinity. Remove history, reload or log out
+  to clear it. Invalid JSON/ZIP/oversized input must preserve the prior successful result.
+
 - Run `npm run check` for formatting, lint/type checks, unit/integration tests and production build.
 - Connect a Spotify account and confirm the profile, 10 artists, 10 tracks and genre summary.
 - With an account whose top-artist response omits genres, confirm available per-artist metadata fills

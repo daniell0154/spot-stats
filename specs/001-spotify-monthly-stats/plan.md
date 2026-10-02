@@ -135,6 +135,19 @@ em quatro camadas torna regras, orquestração, detalhes do Spotify e React subs
 - `SoundCapsule` apresenta a estimativa com `≈`, contagem de eventos e ressalva de cobertura, usando
   `public/spotify-neutral-logo.png`; a logo roxa permanece no cabeçalho, favicon e login.
 
+## Local history import design
+
+- `HistoryParser` is an application port; `SpotifyHistoryParser` maps extracted extended-history
+  JSON (`ts`, `ms_played`, music title/artist/URI) to minimal domain events. No IP/device/account
+  metadata is retained. `ImportListeningHistory` deduplicates and aggregates UTC calendar months.
+- UI reads at most 50 JSON files / 100 MiB sequentially, replaces imports atomically, and keeps
+  summaries in a ready-state component so logout/unmount clears them, including pending reads.
+- Domain stores summed milliseconds until formatting; minutes are floored only after summing.
+  Capsule receives an optional selected monthly summary; imported time is visibly separated from
+  live affinity and recent estimates. No storage/backend or new scope is needed.
+- Composition root injects the concrete parser; presentation never handles Spotify payload shapes.
+- Delivery includes the prior PNG clipping fix and automatic scoped commit/push after quality gates.
+
 ## Complexity Tracking
 
 Nenhuma violação constitucional ou complexidade excepcional foi aceita.

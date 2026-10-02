@@ -1,5 +1,14 @@
 # Contracts: Spotify Ports
 
+## HistoryParser and ImportListeningHistory
+
+- `HistoryParser.parse(text)` validates extended-history arrays and returns minimal music events
+  plus excluded-row counts; malformed/unsupported files throw a safe actionable error.
+- `ImportListeningHistory.execute(texts)` receives an async stream of file text, combines files,
+  deduplicates identical events and returns monthly summaries; no valid music rejects the import.
+- UI offers multi-file JSON selection, UTC month selection, removal, in-memory-only notice and
+  Spotify download instructions. Prior results survive failures; logout clears imported state.
+
 ## AuthGateway
 
 - `createAuthorizationUrl(): Promise<string>` creates a PKCE request with S256, state and only

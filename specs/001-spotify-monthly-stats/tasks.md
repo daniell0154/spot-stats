@@ -214,3 +214,17 @@ de escopo preserva rankings; a cápsula comunica limites e usa a logo neutra tra
 
 - T065-T066 establish expected behavior before T067-T069; T067 blocks T068-T069.
 - T068-T069 complete the UI increment; T070-T071 finish documentation and quality gates.
+
+## Phase 18: Artwork export clipping correction
+
+- [x] T072 [US8] Normalize clone margins and dimensions in src/presentation/services/download-artwork.ts and verify centered artwork export in tests/unit/download-artwork.test.ts per FR-025/FR-026. Validated actual PNG downloads in Edge at 1440px and 360px for both artworks, with opaque left/right edges and 3x dimensions; npm run check passed (36 tests).
+
+## Phase 19: User Story 9 - Local real listening history
+
+- [x] T073 [US9] Define history entities, parser port and aggregation use case in src/domain/entities/listening-history.ts and src/application/use-cases/import-listening-history.ts per FR-027.
+- [x] T074 [US9] Map validated extended-history files in src/infrastructure/mappers/spotify-history-parser.ts with tests in tests/unit/listening-history.test.ts per FR-027/FR-029.
+- [x] T075 [US9] Add import/month/removal controls and selected capsule totals in src/presentation/components/ListeningHistoryImport.tsx and src/presentation/components/SoundCapsule.tsx; wire through src/app/composition.ts and src/main.tsx per FR-028/FR-029.
+- [x] T076 [US9] Verify UI import/recovery/removal/logout in tests/integration/listening-history-import.test.tsx; update README.md, TASKS.md and quickstart.md, run npm run check and converge.
+- [x] T077 Document standing scoped commit/push authorization in AGENTS.md and .specify/memory/constitution.md; delivery follows the quality gate.
+
+Dependencies: T073 precedes T074 and T075; T074/T075 precede T076; T077 delivery follows validation.

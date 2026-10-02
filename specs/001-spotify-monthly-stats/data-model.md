@@ -77,6 +77,14 @@ distinct for both editorial projections and never persisted.
 
 This is an approximation over returned recent events, not actual listened time or a calendar month.
 
+## Imported listening history
+
+`ListeningEvent`: UTC ISO ending timestamp, music identity, non-negative safe integer playedMs.
+`ListeningMonth`: YYYY-MM UTC, summed playedMs, unique event count, first/last ending timestamps.
+`ListeningHistory`: descending month summaries, ignored row count and duplicate row count. Counts
+include zero-duration music events; sums are rounded down only for final minute display. No raw
+export metadata is retained. Duplicate key: ending timestamp, music identity and playedMs.
+
 ## UserSession
 
 Contains access token, refresh token, absolute expiry time and granted scopes. It transitions from
