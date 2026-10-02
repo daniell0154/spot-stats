@@ -1,0 +1,28 @@
+# Quickstart: Spotify Monthly Stats
+
+## Prerequisites
+
+- Node.js 22+
+- Spotify developer application with redirect URI `http://127.0.0.1:5173/callback`
+
+## Configure and run
+
+1. Copy `.env.example` to `.env.local`.
+2. Set `VITE_SPOTIFY_CLIENT_ID` to the app client ID.
+3. Keep `VITE_SPOTIFY_REDIRECT_URI=http://127.0.0.1:5173/callback`.
+4. Run `npm install` and `npm run dev`.
+5. Open `http://127.0.0.1:5173`.
+
+No client secret is used or expected.
+
+## Validate
+
+- Run `npm run check` for formatting, lint/type checks, unit/integration tests and production build.
+- Connect a Spotify account and confirm the profile, 10 artists, 10 tracks and genre summary.
+- Confirm the UI says "aproximadamente as últimas 4 semanas".
+- Revoke/expire authorization and confirm the app recovers or asks to reconnect.
+- Use logout and confirm refreshing the page stays disconnected.
+- At 360 px width and with keyboard-only navigation, complete the login/dashboard/logout flow.
+
+Expected domain shapes and boundary behavior are defined in [data-model.md](data-model.md) and
+[contracts/spotify-ports.md](contracts/spotify-ports.md).
