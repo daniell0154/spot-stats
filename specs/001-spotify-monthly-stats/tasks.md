@@ -82,3 +82,9 @@ Spotify-specific shapes in infrastructure so each phase remains independently te
 - [x] T027 [US1] Preserve the temporary PKCE request across the Spotify redirect with bounded,
       single-use browser storage in src/infrastructure/storage/session-storage.ts and cover recovery in
       tests/unit/session-storage.test.ts per FR-003 and SC-001
+- [x] T028 [US1] Invoke the native browser fetch without an adapter receiver during token exchange
+      in src/infrastructure/auth/spotify-auth-gateway.ts and prevent regression in
+      tests/unit/spotify-auth-gateway.test.ts per FR-001 and SC-001
+- [x] T029 [US1] Invoke the native browser fetch without an adapter receiver for Spotify Web API
+      reads in src/infrastructure/http/spotify-api-gateway.ts and prevent regression in
+      tests/integration/spotify-api-gateway.test.ts per FR-004 and SC-001

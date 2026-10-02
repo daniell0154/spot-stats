@@ -38,17 +38,20 @@ describe('SpotifyAuthGateway', () => {
 
   it('salva uma sessão válida depois do callback', async () => {
     const sessions = repository();
-    const fetcher = vi.fn().mockResolvedValue(
-      new Response(
-        JSON.stringify({
-          access_token: 'access',
-          refresh_token: 'refresh',
-          expires_in: 3600,
-          scope: 'user-top-read',
-        }),
-        { status: 200 },
-      ),
-    );
+    const fetcher = vi.fn(function (this: unknown) {
+      expect(this).toBeUndefined();
+      return Promise.resolve(
+        new Response(
+          JSON.stringify({
+            access_token: 'access',
+            refresh_token: 'refresh',
+            expires_in: 3600,
+            scope: 'user-top-read',
+          }),
+          { status: 200 },
+        ),
+      );
+    });
     const gateway = new SpotifyAuthGateway(
       { clientId: 'client', redirectUri: 'http://127.0.0.1:5173/callback' },
       sessions,

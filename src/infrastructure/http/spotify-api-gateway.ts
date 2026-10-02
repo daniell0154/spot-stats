@@ -39,7 +39,9 @@ export class SpotifyApiGateway implements SpotifyStatsGateway {
   private async get<T>(path: string, accessToken: string): Promise<T> {
     let response: Response;
     try {
-      response = await this.request(`https://api.spotify.com/v1${path}`, {
+      // Native browser fetch throws when the adapter instance is passed as its receiver.
+      const request = this.request;
+      response = await request(`https://api.spotify.com/v1${path}`, {
         headers: { Authorization: `Bearer ${accessToken}` },
       });
     } catch {

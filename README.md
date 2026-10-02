@@ -19,9 +19,9 @@ O projeto usa Authorization Code with PKCE e não precisa de client secret.
 1. Importe este projeto no Vercel e confirme o framework **Vite**.
 2. Em **Settings > Environment Variables**, configure para Production:
    - `VITE_SPOTIFY_CLIENT_ID`: o Client ID do app no Spotify.
-   - `VITE_SPOTIFY_REDIRECT_URI`: `https://spot-stats.vercel.app/callback`.
+   - `VITE_SPOTIFY_REDIRECT_URI`: `https://spot-stats-dw.vercel.app/callback`.
 3. No Spotify Developer Dashboard, adicione estes Redirect URIs ao mesmo app:
-   - `https://spot-stats.vercel.app/callback`
+   - `https://spot-stats-dw.vercel.app/callback`
    - `http://127.0.0.1:5173/callback` para desenvolvimento local.
 4. Faça um novo deploy depois de alterar variáveis de ambiente.
 

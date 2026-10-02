@@ -55,7 +55,9 @@ export class SpotifyAuthGateway implements AuthGateway {
       throw new AppError('AUTH_FAILED', 'Invalid OAuth callback.');
     }
 
-    const response = await this.request('https://accounts.spotify.com/api/token', {
+    // Native browser fetch must not receive the gateway instance as its `this` value.
+    const request = this.request;
+    const response = await request('https://accounts.spotify.com/api/token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
@@ -81,7 +83,8 @@ export class SpotifyAuthGateway implements AuthGateway {
   async refreshAccessToken(): Promise<string> {
     const current = this.sessions.getSession();
     if (!current?.refreshToken) throw new AppError('AUTH_REQUIRED', 'No refresh token.');
-    const response = await this.request('https://accounts.spotify.com/api/token', {
+    const request = this.request;
+    const response = await request('https://accounts.spotify.com/api/token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: new URLSearchParams({
