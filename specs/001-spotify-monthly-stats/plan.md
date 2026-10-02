@@ -18,7 +18,8 @@ OAuth/Web API e apresentação isolada.
 
 **Primary Dependencies**: React 19, React DOM 19, Vite 7
 
-**Storage**: `sessionStorage` somente para sessão OAuth e parâmetros PKCE; sem banco de dados
+**Storage**: tokens no `sessionStorage`; pedido PKCE temporário no `localStorage`, removido no callback
+ou após dez minutos; sem banco de dados
 
 **Testing**: Vitest, Testing Library, jsdom
 

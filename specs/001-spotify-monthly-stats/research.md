@@ -31,9 +31,13 @@
 
 ## Decision 5: Sessão transitória
 
-- **Decision**: Guardar tokens apenas em `sessionStorage` e limpar no logout.
-- **Rationale**: Sobrevive ao callback/reload da aba sem persistir entre sessões do navegador.
-- **Alternatives considered**: `localStorage` (retenção maior); cookie HttpOnly (exigiria backend).
+- **Decision**: Guardar tokens apenas em `sessionStorage`. Guardar o `state` e o `code_verifier` do
+  pedido PKCE no `localStorage` com validade máxima de dez minutos, consumo único e cópia de
+  contingência no `sessionStorage`.
+- **Rationale**: Preserva a sessão transitória dos tokens e torna o retorno do provedor resiliente a
+  navegadores que recriam o armazenamento da aba durante a navegação OAuth.
+- **Alternatives considered**: somente `sessionStorage` (pode perder o pedido durante o retorno);
+  tokens no `localStorage` (retenção maior); cookie HttpOnly (exigiria backend).
 
 ## Decision 6: Resiliência do adapter
 

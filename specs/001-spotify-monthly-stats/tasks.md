@@ -79,3 +79,6 @@ Spotify-specific shapes in infrastructure so each phase remains independently te
 
 - [x] T025 CRITICAL add explicit empty-result, provider-error and invalid-configuration coverage in tests/integration/spot-stats-page.test.tsx, tests/integration/spotify-api-gateway.test.ts and tests/unit/spotify-auth-gateway.test.ts per Constitution III (partial)
 - [x] T026 CRITICAL enforce the provider Retry-After delay before UI retry in src/application/errors.ts, src/presentation/hooks/useSpotStats.ts and src/presentation/pages/SpotStatsPage.tsx per Constitution IV (contradicts)
+- [x] T027 [US1] Preserve the temporary PKCE request across the Spotify redirect with bounded,
+      single-use browser storage in src/infrastructure/storage/session-storage.ts and cover recovery in
+      tests/unit/session-storage.test.ts per FR-003 and SC-001
