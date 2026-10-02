@@ -1,5 +1,6 @@
 import type { CSSProperties } from 'react';
 import type { MonthlySnapshot, RankedArtist } from '../../domain/entities/stats';
+import { visualPaletteStyle, type VisualPalette } from '../styles/visual-palettes';
 
 function ArtistPortrait({ artist }: { artist: RankedArtist }) {
   return (
@@ -19,12 +20,22 @@ function ArtistPortrait({ artist }: { artist: RankedArtist }) {
   );
 }
 
-export function MonthlyPortrait({ snapshot }: { snapshot: MonthlySnapshot }) {
+interface MonthlyPortraitProps {
+  snapshot: MonthlySnapshot;
+  palette: VisualPalette;
+}
+
+export function MonthlyPortrait({ snapshot, palette }: MonthlyPortraitProps) {
   const featuredArtists = snapshot.artists.slice(0, 3);
   const leadingGenre = snapshot.genres[0];
 
   return (
-    <article className="monthly-portrait" aria-labelledby="portrait-title">
+    <article
+      className="monthly-portrait"
+      aria-labelledby="portrait-title"
+      data-palette={palette.id}
+      style={visualPaletteStyle(palette)}
+    >
       <div className="portrait-signal" aria-hidden="true">
         {Array.from({ length: 22 }, (_, index) => (
           <i key={index} style={{ height: `${22 + ((index * 17) % 70)}%` } as CSSProperties} />

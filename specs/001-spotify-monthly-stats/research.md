@@ -63,3 +63,19 @@
 - **Alternatives considered**: calcular minutos a partir da duração das faixas (seria uma alegação
   falsa); coletar histórico próprio (fora do escopo e mais invasivo); usar uma imagem estática (não
   refletiria a conta autenticada nem seria acessível).
+
+## Decision 9: Cápsula sonora sem tempo ouvido inventado
+
+- **Decision**: Adaptar a referência com capa do artista principal, edição atual, tops e gênero
+  predominante; na ausência de gênero, destacar a quantidade real de itens retornados.
+- **Rationale**: Preserva a hierarquia visual da referência usando apenas dados existentes no snapshot.
+- **Alternatives considered**: somar duração das faixas (não representa tempo ouvido); repetir o
+  mesmo pôster anterior (não atende à nova linguagem); incorporar a marca Spotify Premium (indevido).
+
+## Decision 10: Paletas aleatórias curadas e estáveis
+
+- **Decision**: Sortear, uma vez por montagem da página, duas paletas distintas de um conjunto
+  fechado com foregrounds de alto contraste e repassá-las às duas composições.
+- **Rationale**: Entrega variedade sem cintilação entre renders, colisão de cores ou contraste imprevisível.
+- **Alternatives considered**: gerar cores RGB livres (contraste inseguro); sortear dentro de cada
+  componente (pode repetir e mudar ao remontar); persistir escolha (retenção desnecessária).

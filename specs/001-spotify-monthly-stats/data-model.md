@@ -53,6 +53,11 @@ The presentation may derive a monthly portrait from this same snapshot: up to th
 the first five ranked artists and tracks, and the first genre statistic. This is a view projection,
 not a separately stored entity.
 
+The presentation may also derive a sound capsule from the same snapshot: the leading artist image,
+the first five artists and tracks, current edition label, and either the first genre statistic or the
+real number of returned highlights. Visual palette identifiers are ephemeral presentation state,
+distinct for both editorial projections and never persisted.
+
 ## UserSession
 
 Contains access token, refresh token, absolute expiry time and granted scopes. It transitions from

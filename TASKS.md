@@ -14,6 +14,8 @@ The executable SDD backlog is [specs/001-spotify-monthly-stats/tasks.md](specs/0
 - [x] Browser-safe Spotify profile and ranking requests
 - [x] Resilient genre enrichment for deprecated Spotify metadata
 - [x] Accessible monthly portrait tab inspired by the supplied reference
+- [x] Editorial sound capsule tab inspired by the new reference
+- [x] Stable distinct random palettes for both authenticated artwork views
 
 Task IDs, dependencies, acceptance criteria and file-level traceability are maintained in the
 feature backlog to keep one source of delivery truth.

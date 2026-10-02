@@ -29,6 +29,82 @@ describe('SpotStatsPage', () => {
       'aria-selected',
       'true',
     );
+    expect(screen.getAllByRole('tab')).toHaveLength(3);
+  });
+
+  it('alterna para a cápsula sonora com capa, edição e destaques reais', async () => {
+    const getStats = { execute: vi.fn().mockResolvedValue(snapshot) } as unknown as GetMonthlyStats;
+    render(<SpotStatsPage auth={auth(true)} getStats={getStats} />);
+
+    fireEvent.click(await screen.findByRole('tab', { name: 'Cápsula sonora' }));
+
+    expect(screen.getByRole('tabpanel', { name: 'Cápsula sonora' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Minha cápsula sonora' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Artistas em destaque' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Faixas em destaque' })).toBeInTheDocument();
+    expect(screen.getByText(/50%.*mpb/i)).toBeInTheDocument();
+    expect(screen.getByText(/aproximadamente 4 semanas/i)).toBeInTheDocument();
+    expect(getStats.execute).toHaveBeenCalledOnce();
+  });
+
+  it('mantém paletas distintas e estáveis ao alternar entre as artes', async () => {
+    const getStats = { execute: vi.fn().mockResolvedValue(snapshot) } as unknown as GetMonthlyStats;
+    render(<SpotStatsPage auth={auth(true)} getStats={getStats} />);
+
+    fireEvent.click(await screen.findByRole('tab', { name: 'Retrato mensal' }));
+    const portraitPalette = screen
+      .getByRole('heading', { name: /Dani.*mês/i })
+      .closest('article')
+      ?.getAttribute('data-palette');
+
+    fireEvent.click(screen.getByRole('tab', { name: 'Cápsula sonora' }));
+    const capsulePalette = screen
+      .getByRole('heading', { name: 'Minha cápsula sonora' })
+      .closest('article')
+      ?.getAttribute('data-palette');
+
+    expect(portraitPalette).toBeTruthy();
+    expect(capsulePalette).toBeTruthy();
+    expect(portraitPalette).not.toBe(capsulePalette);
+
+    fireEvent.click(screen.getByRole('tab', { name: 'Retrato mensal' }));
+    expect(
+      screen
+        .getByRole('heading', { name: /Dani.*mês/i })
+        .closest('article')
+        ?.getAttribute('data-palette'),
+    ).toBe(portraitPalette);
+  });
+
+  it('percorre ciclicamente as três abas com o teclado', async () => {
+    const getStats = { execute: vi.fn().mockResolvedValue(snapshot) } as unknown as GetMonthlyStats;
+    render(<SpotStatsPage auth={auth(true)} getStats={getStats} />);
+
+    const details = await screen.findByRole('tab', { name: 'Visão detalhada' });
+    fireEvent.keyDown(details, { key: 'ArrowLeft' });
+    expect(screen.getByRole('tab', { name: 'Cápsula sonora' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+
+    fireEvent.keyDown(screen.getByRole('tab', { name: 'Cápsula sonora' }), { key: 'ArrowRight' });
+    expect(details).toHaveAttribute('aria-selected', 'true');
+  });
+
+  it('usa contagem real quando a cápsula não tem imagem nem gênero', async () => {
+    const getStats = {
+      execute: vi.fn().mockResolvedValue({
+        ...snapshot,
+        artists: snapshot.artists.map((artist) => ({ ...artist, imageUrl: null, genres: [] })),
+        genres: [],
+      }),
+    } as unknown as GetMonthlyStats;
+    render(<SpotStatsPage auth={auth(true)} getStats={getStats} />);
+
+    fireEvent.click(await screen.findByRole('tab', { name: 'Cápsula sonora' }));
+
+    expect(screen.getByText('3 itens')).toBeInTheDocument();
+    expect(screen.getByLabelText(/capa sem imagem/i)).toBeInTheDocument();
   });
 
   it('alterna para um retrato mensal com os dados disponíveis do snapshot', async () => {

@@ -28,6 +28,11 @@
 ## Authenticated Tabs UI
 
 - The detailed view is the initially selected tab.
-- The monthly portrait tab receives the same `MonthlySnapshot`; it does not trigger another stats load.
+- The monthly portrait and sound capsule tabs receive the same `MonthlySnapshot`; they do not
+  trigger another stats load.
 - Tabs expose selected state, controlled panels and keyboard focus through native button behavior.
 - The portrait limits lists to five and renders explicit fallbacks for missing images and genres.
+- The capsule limits lists to five, uses the leading artist as its cover and never labels affinity as
+  a calendar month or listening time.
+- The page assigns distinct curated palette identifiers to both editorial views once per mount; tab
+  changes reuse those identifiers.

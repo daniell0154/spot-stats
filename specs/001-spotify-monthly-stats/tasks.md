@@ -117,3 +117,28 @@ artistas/faixas e gênero ou fallback, sem minutos nem contagens de reproduçõe
 
 - [x] T036 Update implementation status and limitations in TASKS.md and README.md
 - [x] T037 Run formatting, static analysis, tests and production build through npm run check
+
+## Phase 11: User Story 5 - Abrir uma cápsula sonora editorial (Priority: P2)
+
+**Goal**: Oferecer uma terceira aba inspirada na nova referência e variar as duas artes com paletas distintas.
+
+**Independent Test**: Um snapshot conhecido produz cápsula com capa, edição, top cinco e destaque
+real; ao alternar entre três abas por teclado, as duas artes mantêm paletas diferentes e estáveis.
+
+- [x] T038 [US5] Add capsule, three-tab keyboard and stable distinct palette tests in tests/integration/spot-stats-page.test.tsx
+- [x] T039 [P] [US5] Define curated random pair selection in src/presentation/styles/visual-palettes.ts and cover it in tests/unit/visual-palettes.test.ts
+- [x] T040 [US5] Apply the assigned palette contract to src/presentation/components/MonthlyPortrait.tsx
+- [x] T041 [P] [US5] Build the snapshot-only editorial capsule in src/presentation/components/SoundCapsule.tsx
+- [x] T042 [US5] Wire the third accessible tab and cyclic keyboard navigation in src/presentation/pages/SpotStatsPage.tsx
+- [x] T043 [US5] Style responsive capsule and palette variables in src/styles/global.css
+
+## Phase 12: Capsule Polish & Quality Gates
+
+- [x] T044 Update feature status and data limitations in TASKS.md and README.md
+- [x] T045 Run formatting, static analysis, tests and production build through npm run check
+
+## Extension Dependencies
+
+- T038 fixes integration expectations before T040-T043.
+- T039 blocks palette application in T040-T043; T041 can proceed in parallel with T039.
+- T042 integrates T040 and T041; T043 follows the component markup; T044-T045 finish the extension.

@@ -32,7 +32,7 @@ ou após dez minutos; sem banco de dados
 
 **Constraints**: sem client secret; redirect local em `127.0.0.1`; somente escopos mínimos; WCAG AA
 
-**Scale/Scope**: um usuário por sessão, duas abas autenticadas, 10 artistas, 10 faixas, sem persistência
+**Scale/Scope**: um usuário por sessão, três abas autenticadas, 10 artistas, 10 faixas, sem persistência
 
 ## Constitution Check
 
@@ -107,6 +107,11 @@ em quatro camadas torna regras, orquestração, detalhes do Spotify e React subs
   mantém a visão detalhada como seleção inicial.
 - A composição usa imagens originais vinculadas aos artistas, sem overlays de marca ou números de
   minutos/reproduções não disponibilizados pelo Spotify.
+- `SoundCapsule` projeta o mesmo snapshot em capa editorial com artista principal, edição atual,
+  top cinco duplo e gênero predominante ou contagem real, sem nova consulta ou persistência.
+- `visual-palettes.ts` mantém um conjunto fechado de paletas acessíveis e sorteia um par de índices
+  distintos uma vez por montagem da página; ambos são repassados às artes como propriedades CSS.
+- A navegação de abas passa a percorrer três itens com setas, Home e End, preservando seleção e foco.
 
 ## Complexity Tracking
 

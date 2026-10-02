@@ -23,6 +23,10 @@ No client secret is used or expected.
   the summary; if Spotify has no classification, confirm the honest empty state remains.
 - Switch between "Visão detalhada" and "Retrato mensal" using pointer and keyboard; confirm the
   portrait shows only affinity-based counts, top-five lists and the available leading genre.
+- Open "Cápsula sonora" and confirm the leading image/fallback, edition, both top-five lists and the
+  real genre or count highlight match the loaded snapshot without a second data request.
+- Move repeatedly among all three tabs and confirm the portrait and capsule keep two distinct palettes
+  until reload; reload and confirm the pair may change while text remains legible.
 - Confirm the UI says "aproximadamente as últimas 4 semanas".
 - Revoke/expire authorization and confirm the app recovers or asks to reconnect.
 - Use logout and confirm refreshing the page stays disconnected.

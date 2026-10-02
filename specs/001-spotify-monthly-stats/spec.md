@@ -95,6 +95,30 @@ os mesmos dados da visão detalhada.
 4. **Given** navegação por teclado ou uma tela de 360 px, **When** o usuário alterna as abas,
    **Then** foco, seleção e conteúdo permanecem perceptíveis e utilizáveis.
 
+---
+
+### User Story 5 - Abrir uma cápsula sonora editorial (Priority: P2)
+
+Como ouvinte autenticado, quero alternar para uma cápsula sonora com imagem dominante, rankings e
+um destaque real do período para ver meus dados em uma segunda composição editorial.
+
+**Why this priority**: Oferece uma leitura visual alternativa baseada na nova referência sem criar
+métricas que não existem no provedor.
+
+**Independent Test**: Com um retrato conhecido, o usuário abre a terceira aba e encontra imagem do
+artista principal, edição atual, top cinco artistas e faixas e gênero predominante ou fallback.
+
+**Acceptance Scenarios**:
+
+1. **Given** artistas e faixas disponíveis, **When** o usuário escolhe "Cápsula sonora", **Then** vê
+   uma composição vertical com imagem principal, identificação da edição e os dois top cinco.
+2. **Given** gênero predominante disponível, **When** a cápsula é exibida, **Then** a proporção e o
+   nome do gênero aparecem como destaque sem alegar tempo ouvido.
+3. **Given** imagem ou gênero ausente, **When** a cápsula é exibida, **Then** a composição usa um
+   fallback legível baseado apenas nas contagens reais retornadas.
+4. **Given** as abas "Retrato mensal" e "Cápsula sonora", **When** o painel é carregado, **Then** cada
+   arte recebe uma paleta aleatória diferente, com contraste legível, mantida até a página recarregar.
+
 ### Edge Cases
 
 - O retorno de autorização contém erro, código ausente ou estado divergente.
@@ -105,6 +129,8 @@ os mesmos dados da visão detalhada.
 - A conta possui menos itens que o limite ou nenhum histórico suficiente.
 - O usuário recarrega a página durante ou depois do retorno de autorização.
 - A lista possui menos de cinco artistas ou faixas para preencher o retrato mensal.
+- O artista principal não possui imagem para ocupar a capa da cápsula sonora.
+- O sorteio de cores seleciona paletas próximas ou inadequadas para legibilidade.
 
 ## Requirements _(mandatory)_
 
@@ -129,12 +155,16 @@ os mesmos dados da visão detalhada.
 - **FR-011**: A interface MUST adaptar-se a telas móveis e desktop e permitir navegação por teclado.
 - **FR-012**: O sistema MUST aproveitar metadados oficiais adicionais dos mesmos artistas quando a
   resposta inicial não contiver gêneros, sem inferir ou inventar classificações.
-- **FR-013**: O painel autenticado MUST oferecer duas abas: uma visão detalhada e um retrato mensal
-  compacto, com seleção e relação entre aba e painel comunicadas a tecnologias assistivas.
+- **FR-013**: O painel autenticado MUST oferecer três abas: uma visão detalhada, um retrato mensal e
+  uma cápsula sonora, com seleção e relação entre aba e painel comunicadas a tecnologias assistivas.
 - **FR-014**: O retrato mensal MUST mostrar nome do usuário, ano atual, até três imagens de artistas,
   até cinco artistas, até cinco faixas e o principal gênero disponível com sua proporção.
 - **FR-015**: O retrato mensal MUST usar somente afinidade, contagens de itens retornados e gêneros
   recebidos; MUST NOT apresentar minutos ou reproduções como se fossem fornecidos pelo provedor.
+- **FR-016**: A cápsula sonora MUST mostrar imagem ou fallback do artista principal, identificação
+  da edição atual, até cinco artistas, até cinco faixas e gênero predominante ou contagem real.
+- **FR-017**: O retrato mensal e a cápsula sonora MUST receber paletas aleatórias distintas entre si,
+  estáveis durante a visualização e escolhidas apenas entre combinações com contraste legível.
 
 ### Key Entities _(include if feature involves data)_
 
@@ -160,6 +190,8 @@ os mesmos dados da visão detalhada.
   menos um gênero aparece nas duas visualizações; quando indisponível, ambas informam a ausência.
 - **SC-007**: Usuários de teste alternam entre a visão detalhada e o retrato mensal em uma única
   ação, tanto com ponteiro quanto com teclado.
+- **SC-008**: Em 100% dos carregamentos testados, as duas composições editoriais usam paletas
+  diferentes, preservam contraste legível e não mudam durante a navegação entre abas.
 
 ## Assumptions
 
@@ -169,5 +201,7 @@ os mesmos dados da visão detalhada.
 - A primeira versão não armazena histórico, não compara meses e não publica resultados.
 - O retrato mensal é uma representação visual do recorte `short_term`, não um histórico de um mês
   civil nem um relatório de minutos ou reproduções.
+- A edição exibida usa o mês e ano atuais apenas como identidade visual; todos os dados continuam
+  representando aproximadamente quatro semanas de afinidade.
 - O usuário configurará previamente um aplicativo no painel de desenvolvedor do Spotify.
 - A interface será oferecida em português do Brasil.

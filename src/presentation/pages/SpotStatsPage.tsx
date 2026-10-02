@@ -5,22 +5,42 @@ import { AppHeader } from '../components/AppHeader';
 import { LoginHero } from '../components/LoginHero';
 import { MonthlyPortrait } from '../components/MonthlyPortrait';
 import { RankedLists } from '../components/RankedLists';
+import { SoundCapsule } from '../components/SoundCapsule';
 import { StatsOverview } from '../components/StatsOverview';
 import { useSpotStats } from '../hooks/useSpotStats';
+import { createRandomPalettePair } from '../styles/visual-palettes';
 
 interface SpotStatsPageProps {
   auth: AuthGateway;
   getStats: GetMonthlyStats;
 }
 
+type DashboardTab = 'details' | 'portrait' | 'capsule';
+
+const TAB_ORDER: readonly DashboardTab[] = ['details', 'portrait', 'capsule'];
+const TAB_LABELS: Record<DashboardTab, string> = {
+  details: 'Visão detalhada',
+  portrait: 'Retrato mensal',
+  capsule: 'Cápsula sonora',
+};
+
 export function SpotStatsPage({ auth, getStats }: SpotStatsPageProps) {
   const { view, connect, retry, logout } = useSpotStats(auth, getStats);
-  const [activeTab, setActiveTab] = useState<'details' | 'portrait'>('details');
+  const [activeTab, setActiveTab] = useState<DashboardTab>('details');
+  const [palettes] = useState(() => createRandomPalettePair());
 
   const selectTabFromKeyboard = (event: KeyboardEvent<HTMLButtonElement>) => {
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
     event.preventDefault();
-    const nextTab = event.key === 'ArrowLeft' || event.key === 'Home' ? 'details' : 'portrait';
+    const currentIndex = TAB_ORDER.indexOf(activeTab);
+    let nextTab: DashboardTab;
+    if (event.key === 'Home') nextTab = TAB_ORDER[0];
+    else if (event.key === 'End') nextTab = TAB_ORDER[TAB_ORDER.length - 1];
+    else if (event.key === 'ArrowLeft') {
+      nextTab = TAB_ORDER[(currentIndex - 1 + TAB_ORDER.length) % TAB_ORDER.length];
+    } else {
+      nextTab = TAB_ORDER[(currentIndex + 1) % TAB_ORDER.length];
+    }
     setActiveTab(nextTab);
     window.requestAnimationFrame(() => document.getElementById(`tab-${nextTab}`)?.focus());
   };
@@ -83,39 +103,34 @@ export function SpotStatsPage({ auth, getStats }: SpotStatsPageProps) {
       <AppHeader profile={view.snapshot.profile} onLogout={logout} />
       <main className="dashboard" id="conteudo">
         <div className="dashboard-tabs" role="tablist" aria-label="Visualizações do período">
-          <button
-            id="tab-details"
-            type="button"
-            role="tab"
-            aria-selected={activeTab === 'details'}
-            aria-controls="panel-details"
-            tabIndex={activeTab === 'details' ? 0 : -1}
-            onClick={() => setActiveTab('details')}
-            onKeyDown={selectTabFromKeyboard}
-          >
-            Visão detalhada
-          </button>
-          <button
-            id="tab-portrait"
-            type="button"
-            role="tab"
-            aria-selected={activeTab === 'portrait'}
-            aria-controls="panel-portrait"
-            tabIndex={activeTab === 'portrait' ? 0 : -1}
-            onClick={() => setActiveTab('portrait')}
-            onKeyDown={selectTabFromKeyboard}
-          >
-            Retrato mensal
-          </button>
+          {TAB_ORDER.map((tab) => (
+            <button
+              key={tab}
+              id={`tab-${tab}`}
+              type="button"
+              role="tab"
+              aria-selected={activeTab === tab}
+              aria-controls={`panel-${tab}`}
+              tabIndex={activeTab === tab ? 0 : -1}
+              onClick={() => setActiveTab(tab)}
+              onKeyDown={selectTabFromKeyboard}
+            >
+              {TAB_LABELS[tab]}
+            </button>
+          ))}
         </div>
         {activeTab === 'details' ? (
           <div id="panel-details" role="tabpanel" aria-labelledby="tab-details">
             <StatsOverview snapshot={view.snapshot} />
             <RankedLists artists={view.snapshot.artists} tracks={view.snapshot.tracks} />
           </div>
-        ) : (
+        ) : activeTab === 'portrait' ? (
           <div id="panel-portrait" role="tabpanel" aria-labelledby="tab-portrait">
-            <MonthlyPortrait snapshot={view.snapshot} />
+            <MonthlyPortrait snapshot={view.snapshot} palette={palettes[0]} />
+          </div>
+        ) : (
+          <div id="panel-capsule" role="tabpanel" aria-labelledby="tab-capsule">
+            <SoundCapsule snapshot={view.snapshot} palette={palettes[1]} />
           </div>
         )}
         <footer>
