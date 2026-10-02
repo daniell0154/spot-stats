@@ -25,6 +25,30 @@ function auth(active = false): AuthGateway {
 }
 
 describe('SpotStatsPage', () => {
+  it('oculta a minutagem na arte exportada e mantém a escolha ao trocar de aba', async () => {
+    const getStats = { execute: vi.fn().mockResolvedValue(snapshot) } as unknown as GetMonthlyStats;
+    render(<SpotStatsPage auth={auth(true)} getStats={getStats} />);
+    fireEvent.click(await screen.findByRole('tab', { name: 'Cápsula sonora' }));
+    const toggle = screen.getByRole('button', { name: 'Mostrar minutagem na cápsula' });
+    expect(toggle).toHaveAttribute('aria-pressed', 'true');
+    expect(toggle.closest('article')).toBeNull();
+    fireEvent.click(toggle);
+    expect(screen.queryByText('≈ 5 minutos')).not.toBeInTheDocument();
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Baixar Cápsula sonora em PNG com alta qualidade' }),
+    );
+    await waitFor(() => expect(downloadArtworkAsPngMock).toHaveBeenCalled());
+    const exported = downloadArtworkAsPngMock.mock.lastCall?.[0] as HTMLElement;
+    expect(exported.querySelector('.capsule-listening')).toBeNull();
+    fireEvent.click(screen.getByRole('tab', { name: 'Retrato mensal' }));
+    fireEvent.click(screen.getByRole('tab', { name: 'Cápsula sonora' }));
+    expect(screen.getByRole('button', { name: 'Mostrar minutagem na cápsula' })).toHaveAttribute(
+      'aria-pressed',
+      'false',
+    );
+    fireEvent.click(screen.getByRole('button', { name: 'Mostrar minutagem na cápsula' }));
+    expect(screen.getByText('≈ 5 minutos')).toBeInTheDocument();
+  });
   it('renderiza o dashboard quando existe sessão', async () => {
     const gateway = auth(true);
     const getStats = { execute: vi.fn().mockResolvedValue(snapshot) } as unknown as GetMonthlyStats;

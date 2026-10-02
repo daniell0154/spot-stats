@@ -9,6 +9,8 @@ interface SoundCapsuleProps {
   snapshot: MonthlySnapshot;
   palette: VisualPalette;
   listeningMonth?: ListeningMonth | null;
+  showListening: boolean;
+  onToggleListening: () => void;
 }
 
 function currentEditionLabel() {
@@ -17,13 +19,30 @@ function currentEditionLabel() {
     .replace(' de ', ' ');
 }
 
-export function SoundCapsule({ snapshot, palette, listeningMonth }: SoundCapsuleProps) {
+export function SoundCapsule({
+  snapshot,
+  palette,
+  listeningMonth,
+  showListening,
+  onToggleListening,
+}: SoundCapsuleProps) {
   const leadingArtist = snapshot.artists[0];
   const leadingGenre = snapshot.genres[0];
   const artworkRef = useRef<HTMLElement>(null);
 
   return (
     <div className="artwork-export">
+      <div className="capsule-controls">
+        <button
+          type="button"
+          className="ghost-button"
+          aria-pressed={showListening}
+          aria-label="Mostrar minutagem na cápsula"
+          onClick={onToggleListening}
+        >
+          {showListening ? 'Ocultar minutagem' : 'Mostrar minutagem'}
+        </button>
+      </div>
       <article
         ref={artworkRef}
         className="sound-capsule"
@@ -112,37 +131,39 @@ export function SoundCapsule({ snapshot, palette, listeningMonth }: SoundCapsule
             </div>
           ) : null}
 
-          <div className="capsule-listening">
-            {listeningMonth ? (
-              <>
-                <span>Música ouvida · {listeningMonth.month} (UTC)</span>
-                <strong>{formatListeningTime(listeningMonth)}</strong>
-                <small>
-                  {Math.floor(listeningMonth.playedMs / 60_000).toLocaleString('pt-BR')} minutos
-                  registrados · histórico importado.
-                </small>
-                <small>
-                  Registros de {listeningMonth.firstEvent.slice(0, 10)} a{' '}
-                  {listeningMonth.lastEvent.slice(0, 10)}. Total dos arquivos fornecidos; o mês pode
-                  estar incompleto. Rankings acima: afinidade atual.
-                </small>
-              </>
-            ) : snapshot.recentListeningEstimate ? (
-              <>
-                <span>Duração estimada dos eventos recentes</span>
-                <strong>≈ {snapshot.recentListeningEstimate.minutes} minutos</strong>
-                <small>
-                  {snapshot.recentListeningEstimate.playCount} reproduções recentes · duração
-                  integral das faixas; não é tempo real ouvido nem mês completo.
-                </small>
-              </>
-            ) : (
-              <>
-                <span>Estimativa recente indisponível</span>
-                <p>Reconecte para incluir a estimativa ou ouça mais faixas recentemente.</p>
-              </>
-            )}
-          </div>
+          {showListening ? (
+            <div className="capsule-listening">
+              {listeningMonth ? (
+                <>
+                  <span>Música ouvida · {listeningMonth.month} (UTC)</span>
+                  <strong>{formatListeningTime(listeningMonth)}</strong>
+                  <small>
+                    {Math.floor(listeningMonth.playedMs / 60_000).toLocaleString('pt-BR')} minutos
+                    registrados · histórico importado.
+                  </small>
+                  <small>
+                    Registros de {listeningMonth.firstEvent.slice(0, 10)} a{' '}
+                    {listeningMonth.lastEvent.slice(0, 10)}. Total dos arquivos fornecidos; o mês
+                    pode estar incompleto. Rankings acima: afinidade atual.
+                  </small>
+                </>
+              ) : snapshot.recentListeningEstimate ? (
+                <>
+                  <span>Duração estimada dos eventos recentes</span>
+                  <strong>≈ {snapshot.recentListeningEstimate.minutes} minutos</strong>
+                  <small>
+                    {snapshot.recentListeningEstimate.playCount} reproduções recentes · duração
+                    integral das faixas; não é tempo real ouvido nem mês completo.
+                  </small>
+                </>
+              ) : (
+                <>
+                  <span>Estimativa recente indisponível</span>
+                  <p>Reconecte para incluir a estimativa ou ouça mais faixas recentemente.</p>
+                </>
+              )}
+            </div>
+          ) : null}
 
           <p className="capsule-period">Afinidade de aproximadamente 4 semanas</p>
         </div>

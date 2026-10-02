@@ -235,6 +235,11 @@ horas, cobertura e o total na cápsula; remover ou sair apaga os dados da experi
 
 ### Functional Requirements
 
+- **FR-030**: A página da cápsula MUST oferecer um botão para mostrar/ocultar o bloco completo de
+  minutagem (histórico importado, estimativa ou indisponibilidade). Inicialmente visível, a escolha
+  MUST permanecer ao trocar de aba até recarregar a página e valer também para o PNG; o botão MUST
+  ficar fora da arte e comunicar seu estado às tecnologias assistivas.
+
 - **FR-027**: Users MUST be able to import multiple extracted Spotify extended-history JSON files
   locally and select a calendar month (UTC) to see actual recorded music listening minutes and hours.
   Only music events with valid timestamps and non-negative integer played milliseconds count;

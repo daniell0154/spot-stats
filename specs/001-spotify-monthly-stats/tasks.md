@@ -228,3 +228,7 @@ de escopo preserva rankings; a cápsula comunica limites e usa a logo neutra tra
 - [x] T077 Document standing scoped commit/push authorization in AGENTS.md and .specify/memory/constitution.md; delivery follows the quality gate.
 
 Dependencies: T073 precedes T074 and T075; T074/T075 precede T076; T077 delivery follows validation.
+
+## Phase 20: Optional capsule listening time
+
+- [x] T078 [US9] Add page-owned listening visibility and an accessible toggle outside the exported art in src/presentation/pages/SpotStatsPage.tsx and src/presentation/components/SoundCapsule.tsx per FR-030; verify toggle and tab persistence in tests/integration/spot-stats-page.test.tsx.

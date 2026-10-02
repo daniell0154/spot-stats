@@ -4,6 +4,8 @@ The executable SDD backlog is [specs/001-spotify-monthly-stats/tasks.md](specs/0
 
 ## Delivery status
 
+- [x] Optional capsule listening time with a page toggle, also applied to PNG downloads
+
 - [x] Setup and shared infrastructure
 - [x] Spotify PKCE authorization and API adapters
 - [x] Monthly dashboard (approximately four weeks)

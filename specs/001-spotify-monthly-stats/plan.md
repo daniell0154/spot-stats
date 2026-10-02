@@ -150,4 +150,8 @@ em quatro camadas torna regras, orquestração, detalhes do Spotify e React subs
 
 ## Complexity Tracking
 
+- Optional capsule listening block: `SpotStatsPage` owns a session-local visibility boolean, initially
+  true, passed to `SoundCapsule` along with its toggle callback. A native pressed-state button outside
+  the captured article controls conditional rendering of the entire listening block, including fallback.
+
 Nenhuma violação constitucional ou complexidade excepcional foi aceita.

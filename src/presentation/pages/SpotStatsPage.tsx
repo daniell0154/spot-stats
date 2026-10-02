@@ -31,6 +31,7 @@ export function SpotStatsPage({ auth, getStats, historyImporter }: SpotStatsPage
   const { view, connect, retry, logout } = useSpotStats(auth, getStats);
   const [activeTab, setActiveTab] = useState<DashboardTab>('details');
   const [palettes] = useState(() => createRandomPalettePair());
+  const [showListening, setShowListening] = useState(true);
 
   const selectTabFromKeyboard = (event: KeyboardEvent<HTMLButtonElement>) => {
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
@@ -140,6 +141,8 @@ export function SpotStatsPage({ auth, getStats, historyImporter }: SpotStatsPage
                     snapshot={view.snapshot}
                     palette={palettes[1]}
                     listeningMonth={listeningMonth}
+                    showListening={showListening}
+                    onToggleListening={() => setShowListening((visible) => !visible)}
                   />
                 </div>
               )}
