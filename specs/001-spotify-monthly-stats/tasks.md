@@ -69,6 +69,8 @@
 - T002/T003, T004/T005 and test tasks marked `[P]` touch independent files.
 - T013 can proceed alongside T011/T012 after shared contracts exist.
 - T021/T022 can proceed in parallel after component structure stabilizes.
+- T030 precedes T031; T032 precedes T033-T035. T033 can proceed in parallel with page wiring after
+  the integration expectations are fixed.
 
 ## Implementation Strategy
 
@@ -88,3 +90,30 @@ Spotify-specific shapes in infrastructure so each phase remains independently te
 - [x] T029 [US1] Invoke the native browser fetch without an adapter receiver for Spotify Web API
       reads in src/infrastructure/http/spotify-api-gateway.ts and prevent regression in
       tests/integration/spotify-api-gateway.test.ts per FR-004 and SC-001
+
+## Phase 8: User Story 2 - Recuperar gêneros disponíveis (Priority: P2)
+
+**Goal**: Preencher gêneros que não vieram no ranking usando somente detalhes oficiais dos mesmos artistas.
+
+**Independent Test**: Uma resposta de top artists sem gêneros seguida de detalhes classificados
+produz artistas enriquecidos na mesma ordem; detalhes também vazios preservam o estado sem dados.
+
+- [x] T030 [US2] Add genre enrichment and empty-detail adapter tests in tests/integration/spotify-api-gateway.test.ts
+- [x] T031 [US2] Enrich empty top-artist genres through individual official artist reads in src/infrastructure/http/spotify-api-gateway.ts
+
+## Phase 9: User Story 4 - Ver o retrato mensal (Priority: P2)
+
+**Goal**: Alternar para um pôster mensal responsivo com colagem, tops e gênero derivados do snapshot.
+
+**Independent Test**: Usuários alternam por teclado entre as abas e encontram nome, ano, até cinco
+artistas/faixas e gênero ou fallback, sem minutos nem contagens de reproduções.
+
+- [x] T032 [US4] Add accessible tab, monthly portrait and fallback tests in tests/integration/spot-stats-page.test.tsx
+- [x] T033 [P] [US4] Build the snapshot-only monthly portrait in src/presentation/components/MonthlyPortrait.tsx
+- [x] T034 [US4] Add accessible authenticated tabs and panels in src/presentation/pages/SpotStatsPage.tsx
+- [x] T035 [US4] Style the responsive reference-inspired tabs and portrait in src/styles/global.css
+
+## Phase 10: Extension Polish & Quality Gates
+
+- [x] T036 Update implementation status and limitations in TASKS.md and README.md
+- [x] T037 Run formatting, static analysis, tests and production build through npm run check

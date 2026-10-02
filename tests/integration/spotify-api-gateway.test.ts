@@ -31,6 +31,59 @@ describe('SpotifyApiGateway', () => {
     );
   });
 
+  it('completa gêneros ausentes com os detalhes oficiais do artista', async () => {
+    const request = vi.fn((input: string | URL | Request) => {
+      const url = String(input);
+      if (url.includes('/me/top/artists')) {
+        return Promise.resolve(
+          new Response(
+            JSON.stringify({
+              items: [
+                { id: 'sem-genero', name: 'Artista A', genres: [], popularity: 80 },
+                { id: 'com-genero', name: 'Artista B', genres: ['rock'], popularity: 70 },
+              ],
+            }),
+            { status: 200 },
+          ),
+        );
+      }
+
+      return Promise.resolve(
+        new Response(
+          JSON.stringify({ id: 'sem-genero', name: 'Artista A', genres: ['MPB', 'Soul'] }),
+          { status: 200 },
+        ),
+      );
+    });
+
+    const result = await new SpotifyApiGateway(request).getTopArtists('token');
+
+    expect(result.map((artist) => artist.id)).toEqual(['sem-genero', 'com-genero']);
+    expect(result.map((artist) => artist.genres)).toEqual([['MPB', 'Soul'], ['rock']]);
+    expect(request).toHaveBeenCalledTimes(2);
+    expect(request).toHaveBeenLastCalledWith(
+      'https://api.spotify.com/v1/artists/sem-genero',
+      expect.objectContaining({ headers: { Authorization: 'Bearer token' } }),
+    );
+  });
+
+  it('preserva o estado vazio quando o detalhe oficial também não tem gêneros', async () => {
+    const request = vi
+      .fn()
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ items: [{ id: 'x', name: 'Artista X' }] }), {
+          status: 200,
+        }),
+      )
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ id: 'x', name: 'Artista X', genres: [] }), { status: 200 }),
+      );
+
+    const result = await new SpotifyApiGateway(request).getTopArtists('token');
+
+    expect(result[0]?.genres).toEqual([]);
+  });
+
   it('traduz rate limit com Retry-After', async () => {
     const request = vi
       .fn()

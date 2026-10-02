@@ -49,6 +49,10 @@ Aggregates one `UserProfile`, ordered `RankedArtist[]`, ordered `RankedTrack[]`,
 `GenreStat[]`, and the immutable period label "Aproximadamente as últimas 4 semanas". It is
 created in memory for the active view and is never persisted as listening history.
 
+The presentation may derive a monthly portrait from this same snapshot: up to three artist images,
+the first five ranked artists and tracks, and the first genre statistic. This is a view projection,
+not a separately stored entity.
+
 ## UserSession
 
 Contains access token, refresh token, absolute expiry time and granted scopes. It transitions from

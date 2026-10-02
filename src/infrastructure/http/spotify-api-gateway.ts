@@ -25,7 +25,19 @@ export class SpotifyApiGateway implements SpotifyStatsGateway {
       `/me/top/artists?time_range=short_term&limit=${limit}`,
       accessToken,
     );
-    return mapArtists(page.items ?? []);
+    const artists = mapArtists(page.items ?? []);
+
+    return Promise.all(
+      artists.map(async (artist) => {
+        if (artist.genres.length > 0) return artist;
+
+        const details = await this.get<SpotifyArtistPayload>(
+          `/artists/${encodeURIComponent(artist.id)}`,
+          accessToken,
+        );
+        return { ...artist, genres: details.genres ?? [] };
+      }),
+    );
   }
 
   async getTopTracks(accessToken: string, limit = 10): Promise<readonly RankedTrack[]> {

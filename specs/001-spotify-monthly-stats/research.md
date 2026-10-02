@@ -44,3 +44,22 @@
 - **Decision**: Mapear erros por tipo, renovar uma vez ao receber 401 e respeitar `Retry-After` em 429.
 - **Rationale**: Evita loops, fornece mensagens estáveis e atende às recomendações do provedor.
 - **Alternatives considered**: repasse direto de erros HTTP (vaza detalhes e acopla camadas).
+
+## Decision 7: Complementação de gêneros obsoletos
+
+- **Decision**: Quando o ranking de artistas omitir gêneros, consultar o detalhe oficial de cada
+  artista afetado e preservar vazio caso o próprio Spotify não forneça classificação.
+- **Rationale**: O campo `genres` está obsoleto e pode vir vazio no ranking, mas ainda pertence ao
+  contrato oficial do detalhe de artista; a complementação melhora cobertura sem inferir dados.
+- **Alternatives considered**: classificar pelo nome do artista (não confiável); integrar uma base
+  externa (nova dependência, privacidade e reconciliação); ocultar gêneros sempre (perde dados ainda
+  disponíveis).
+
+## Decision 8: Retrato mensal baseado em afinidade
+
+- **Decision**: Reproduzir a linguagem visual da referência com identidade, colagem, tops e gênero,
+  substituindo minutos/streams por contagens de itens retornados e a ressalva de afinidade.
+- **Rationale**: A API de top items fornece ranking de afinidade, não contagens mensais de execução.
+- **Alternatives considered**: calcular minutos a partir da duração das faixas (seria uma alegação
+  falsa); coletar histórico próprio (fora do escopo e mais invasivo); usar uma imagem estática (não
+  refletiria a conta autenticada nem seria acessível).

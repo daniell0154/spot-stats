@@ -25,6 +25,42 @@ describe('SpotStatsPage', () => {
     expect(await screen.findByRole('heading', { name: 'Dani' })).toBeInTheDocument();
     expect(screen.getByText('Luedji Luna')).toBeInTheDocument();
     expect(screen.getByText(/Aproximadamente as últimas 4 semanas/i)).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: 'Visão detalhada' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
+  });
+
+  it('alterna para um retrato mensal com os dados disponíveis do snapshot', async () => {
+    const getStats = { execute: vi.fn().mockResolvedValue(snapshot) } as unknown as GetMonthlyStats;
+    render(<SpotStatsPage auth={auth(true)} getStats={getStats} />);
+
+    const portraitTab = await screen.findByRole('tab', { name: 'Retrato mensal' });
+    fireEvent.click(portraitTab);
+
+    expect(portraitTab).toHaveAttribute('aria-selected', 'true');
+    expect(screen.getByRole('tabpanel', { name: 'Retrato mensal' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Dani.*mês/i })).toBeInTheDocument();
+    expect(screen.getByLabelText('2 artistas')).toBeInTheDocument();
+    expect(screen.getByLabelText('1 faixa')).toBeInTheDocument();
+    expect(screen.getByText(/mpb/i)).toBeInTheDocument();
+    expect(getStats.execute).toHaveBeenCalledOnce();
+  });
+
+  it('mantém o retrato legível sem imagens nem gêneros', async () => {
+    const getStats = {
+      execute: vi.fn().mockResolvedValue({
+        ...snapshot,
+        artists: snapshot.artists.map((artist) => ({ ...artist, imageUrl: null, genres: [] })),
+        genres: [],
+      }),
+    } as unknown as GetMonthlyStats;
+    render(<SpotStatsPage auth={auth(true)} getStats={getStats} />);
+
+    fireEvent.click(await screen.findByRole('tab', { name: 'Retrato mensal' }));
+
+    expect(screen.getByText(/gênero ainda não classificado/i)).toBeInTheDocument();
+    expect(screen.getAllByText(/[LL]/).length).toBeGreaterThan(0);
   });
 
   it('apaga a sessão no logout', async () => {

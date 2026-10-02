@@ -4,6 +4,11 @@ Uma experiência web para visualizar artistas, faixas e gêneros de maior afinid
 últimas quatro semanas. O Spotify fornece esse período como uma aproximação (`short_term`), não
 como contagem exata de reproduções de um mês do calendário.
 
+Depois do login, a interface oferece uma visão detalhada e um retrato mensal em formato de pôster,
+ambos baseados no mesmo recorte de afinidade. Como o campo de gêneros de artista está obsoleto no
+Spotify, o adapter tenta completar respostas vazias consultando os detalhes oficiais de cada artista;
+quando o próprio Spotify não classifica um artista, a interface mantém um estado vazio explícito.
+
 ## Começar
 
 1. Crie um app no [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).
@@ -52,3 +57,10 @@ presentation -> application -> domain
 
 Os artefatos SDD ficam em `specs/001-spotify-monthly-stats/`; as skills oficiais do Spec Kit ficam
 em `.agents/skills/`.
+
+## Limitações dos dados
+
+- O Spotify não fornece minutos ou número de reproduções mensais pelo endpoint de top items; o
+  retrato usa apenas rankings de afinidade e contagens dos itens retornados.
+- Gêneros continuam dependentes da classificação oficial do Spotify e podem permanecer vazios.
+- O app não armazena histórico nem compara meses civis.

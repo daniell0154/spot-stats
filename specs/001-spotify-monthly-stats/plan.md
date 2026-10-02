@@ -8,9 +8,10 @@
 
 Entregar uma aplicação web responsiva que autentica o próprio usuário via Spotify Authorization
 Code with PKCE e apresenta perfil, top 10 artistas, top 10 faixas e gêneros agregados do intervalo
-`short_term` (aproximadamente quatro semanas). A implementação será uma SPA React/TypeScript
-organizada em Clean Architecture, com domínio e casos de uso puros, portas explícitas, adapters para
-OAuth/Web API e apresentação isolada.
+`short_term` (aproximadamente quatro semanas), completa gêneros ausentes com detalhes oficiais dos
+mesmos artistas e oferece uma visão detalhada e um retrato mensal inspirado em pôster. A implementação
+será uma SPA React/TypeScript organizada em Clean Architecture, com domínio e casos de uso puros,
+portas explícitas, adapters para OAuth/Web API e apresentação isolada.
 
 ## Technical Context
 
@@ -31,7 +32,7 @@ ou após dez minutos; sem banco de dados
 
 **Constraints**: sem client secret; redirect local em `127.0.0.1`; somente escopos mínimos; WCAG AA
 
-**Scale/Scope**: um usuário por sessão, uma tela principal, 10 artistas, 10 faixas, sem persistência
+**Scale/Scope**: um usuário por sessão, duas abas autenticadas, 10 artistas, 10 faixas, sem persistência
 
 ## Constitution Check
 
@@ -95,6 +96,17 @@ tests/
 
 **Structure Decision**: Uma SPA é suficiente porque PKCE não exige segredo no cliente. A separação
 em quatro camadas torna regras, orquestração, detalhes do Spotify e React substituíveis/testáveis.
+
+## Feature Extension Design
+
+- `SpotifyApiGateway.getTopArtists` mantém o ranking original e consulta individualmente detalhes
+  apenas para artistas cujo campo de gêneros veio vazio; falhas seguem os mesmos erros estáveis.
+- `MonthlyPortrait` recebe somente `MonthlySnapshot`, limita visualmente os rankings a cinco itens e
+  deriva o destaque de gênero do primeiro `GenreStat`, sem criar uma entidade ou persistência nova.
+- `SpotStatsPage` controla a aba selecionada localmente com semântica `tablist`/`tab`/`tabpanel` e
+  mantém a visão detalhada como seleção inicial.
+- A composição usa imagens originais vinculadas aos artistas, sem overlays de marca ou números de
+  minutos/reproduções não disponibilizados pelo Spotify.
 
 ## Complexity Tracking
 

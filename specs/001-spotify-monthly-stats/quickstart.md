@@ -19,6 +19,10 @@ No client secret is used or expected.
 
 - Run `npm run check` for formatting, lint/type checks, unit/integration tests and production build.
 - Connect a Spotify account and confirm the profile, 10 artists, 10 tracks and genre summary.
+- With an account whose top-artist response omits genres, confirm available per-artist metadata fills
+  the summary; if Spotify has no classification, confirm the honest empty state remains.
+- Switch between "Visão detalhada" and "Retrato mensal" using pointer and keyboard; confirm the
+  portrait shows only affinity-based counts, top-five lists and the available leading genre.
 - Confirm the UI says "aproximadamente as últimas 4 semanas".
 - Revoke/expire authorization and confirm the app recovers or asks to reconnect.
 - Use logout and confirm refreshing the page stays disconnected.

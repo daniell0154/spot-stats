@@ -1,7 +1,7 @@
 # Specification Quality Checklist: Spotify Monthly Stats
 
 **Purpose**: Validate specification completeness and quality before proceeding to planning
-**Created**: 2026-10-01
+**Created**: 2026-10-02
 **Feature**: [spec.md](../spec.md)
 
 ## Content Quality
@@ -31,4 +31,5 @@
 
 ## Notes
 
-- Validated on 2026-10-01; ready for `$speckit-plan`.
+- Revalidated on 2026-10-02 after adding resilient genre metadata and the authenticated monthly
+  portrait tab; all criteria pass and the feature is ready for `$speckit-plan`.
