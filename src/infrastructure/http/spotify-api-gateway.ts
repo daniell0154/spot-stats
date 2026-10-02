@@ -1,6 +1,11 @@
 import { AppError } from '../../application/errors';
 import type { SpotifyStatsGateway } from '../../application/ports/gateways';
-import type { RankedArtist, RankedTrack, UserProfile } from '../../domain/entities/stats';
+import type {
+  RankedArtist,
+  RankedTrack,
+  RecentPlay,
+  UserProfile,
+} from '../../domain/entities/stats';
 import {
   mapArtists,
   mapProfile,
@@ -11,6 +16,11 @@ import {
 
 interface SpotifyPage<T> {
   items?: T[];
+}
+
+interface SpotifyPlayHistoryPayload {
+  played_at?: string;
+  track?: { id?: string; duration_ms?: number };
 }
 
 export class SpotifyApiGateway implements SpotifyStatsGateway {
@@ -46,6 +56,27 @@ export class SpotifyApiGateway implements SpotifyStatsGateway {
       accessToken,
     );
     return mapTracks(page.items ?? []);
+  }
+
+  async getRecentlyPlayed(accessToken: string, limit = 50): Promise<readonly RecentPlay[]> {
+    const safeLimit = Math.min(50, Math.max(1, Math.trunc(limit)));
+    const page = await this.get<SpotifyPage<SpotifyPlayHistoryPayload>>(
+      `/me/player/recently-played?limit=${safeLimit}`,
+      accessToken,
+    );
+
+    return (page.items ?? []).flatMap((item) => {
+      const trackId = item.track?.id;
+      const playedAt = item.played_at;
+      if (!trackId || !playedAt) return [];
+      return [
+        {
+          trackId,
+          durationMs: Math.max(0, item.track?.duration_ms ?? 0),
+          playedAt,
+        },
+      ];
+    });
   }
 
   private async get<T>(path: string, accessToken: string): Promise<T> {

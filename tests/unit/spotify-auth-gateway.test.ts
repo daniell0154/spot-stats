@@ -13,6 +13,18 @@ function repository(requestState = { state: 'expected', verifier: 'verifier' }):
 }
 
 describe('SpotifyAuthGateway', () => {
+  it('solicita somente os três escopos de leitura necessários', async () => {
+    const gateway = new SpotifyAuthGateway(
+      { clientId: 'client', redirectUri: 'http://127.0.0.1:5173/callback' },
+      repository(),
+    );
+
+    const url = new URL(await gateway.createAuthorizationUrl());
+    expect(url.searchParams.get('scope')).toBe(
+      'user-read-private user-top-read user-read-recently-played',
+    );
+  });
+
   it('rejeita login sem client ID configurado', async () => {
     const gateway = new SpotifyAuthGateway(
       { clientId: '', redirectUri: 'http://127.0.0.1:5173/callback' },

@@ -1,6 +1,7 @@
 import type {
   RankedArtist,
   RankedTrack,
+  RecentPlay,
   UserProfile,
   UserSession,
 } from '../../domain/entities/stats';
@@ -18,6 +19,7 @@ export interface SpotifyStatsGateway {
   getProfile(accessToken: string): Promise<UserProfile>;
   getTopArtists(accessToken: string, limit?: number): Promise<readonly RankedArtist[]>;
   getTopTracks(accessToken: string, limit?: number): Promise<readonly RankedTrack[]>;
+  getRecentlyPlayed(accessToken: string, limit?: number): Promise<readonly RecentPlay[]>;
 }
 
 export interface SessionRepository {

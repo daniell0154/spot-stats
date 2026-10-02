@@ -35,6 +35,13 @@ No client secret is used or expected.
 - Revoke/expire authorization and confirm the app recovers or asks to reconnect.
 - Use logout and confirm refreshing the page stays disconnected.
 - At 360 px width and with keyboard-only navigation, complete the login/dashboard/logout flow.
+- During authorization, confirm the consent request includes recent listening history read access and
+  no playback-control permission.
+- With known recent events, confirm the capsule shows `≈` minutes equal to the rounded sum of at most
+  50 full track durations, states the event count and explains that this is not actual listened time.
+- With an older session lacking the new permission, confirm rankings still load and the capsule asks
+  the user to reconnect for the estimate.
+- Confirm the capsule uses the neutral transparent logo while all global placements remain purple.
 
 Expected domain shapes and boundary behavior are defined in [data-model.md](data-model.md) and
 [contracts/spotify-ports.md](contracts/spotify-ports.md).

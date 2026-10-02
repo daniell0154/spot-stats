@@ -46,8 +46,9 @@
 ## MonthlySnapshot
 
 Aggregates one `UserProfile`, ordered `RankedArtist[]`, ordered `RankedTrack[]`, derived
-`GenreStat[]`, and the immutable period label "Aproximadamente as últimas 4 semanas". It is
-created in memory for the active view and is never persisted as listening history.
+`GenreStat[]`, optional `RecentListeningEstimate`, and the immutable period label
+"Aproximadamente as últimas 4 semanas". It is created in memory for the active view and is never
+persisted as listening history. A missing estimate does not invalidate profile, rankings or genres.
 
 The presentation may derive a monthly portrait from this same snapshot: up to three artist images,
 the first five ranked artists and tracks, and the first genre statistic. This is a view projection,
@@ -57,6 +58,24 @@ The presentation may also derive a sound capsule from the same snapshot: the lea
 the first five artists and tracks, current edition label, and either the first genre statistic or the
 real number of returned highlights. Visual palette identifiers are ephemeral presentation state,
 distinct for both editorial projections and never persisted.
+
+## RecentPlay
+
+| Field      | Type    | Rules                          |
+| ---------- | ------- | ------------------------------ |
+| trackId    | string  | non-empty provider identifier  |
+| durationMs | integer | non-negative full duration     |
+| playedAt   | string  | valid provider date-time value |
+
+## RecentListeningEstimate
+
+| Field       | Type    | Rules                             |
+| ----------- | ------- | --------------------------------- |
+| minutes     | integer | non-negative rounded duration sum |
+| playCount   | integer | 1..50 returned events used        |
+| sampleLimit | integer | literal 50                        |
+
+This is an approximation over returned recent events, not actual listened time or a calendar month.
 
 ## UserSession
 

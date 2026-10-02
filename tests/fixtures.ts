@@ -38,5 +38,6 @@ export const snapshot: MonthlySnapshot = {
     },
   ],
   genres: [{ name: 'mpb', count: 2, percentage: 50 }],
+  recentListeningEstimate: { minutes: 5, playCount: 2, sampleLimit: 50 },
   periodLabel: 'Aproximadamente as últimas 4 semanas',
 };

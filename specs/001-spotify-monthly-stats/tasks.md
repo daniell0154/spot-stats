@@ -165,3 +165,32 @@ real; ao alternar entre três abas por teclado, as duas artes mantêm paletas di
 
 - T046 fixes UI expectations before T048-T050; T047 provides the asset consumed by T048-T049.
 - T050 follows the component markup; T051-T052 finish the brand extension.
+
+## Phase 15: User Story 7 - Ver uma estimativa de duração recente (Priority: P2)
+
+**Goal**: Acrescentar à cápsula uma estimativa honesta baseada em até 50 reproduções recentes.
+
+**Independent Test**: Eventos conhecidos produzem minutos arredondados e contagem corretos; falta
+de escopo preserva rankings; a cápsula comunica limites e usa a logo neutra transparente.
+
+- [x] T053 [P] [US7] Add recent-play estimate calculation tests in tests/unit/recent-listening-estimate.test.ts
+- [x] T054 [P] [US7] Add OAuth scope coverage in tests/unit/spotify-auth-gateway.test.ts
+- [x] T055 [P] [US7] Add recent-play mapping, limit and errors in tests/integration/spotify-api-gateway.test.ts
+- [x] T056 [US7] Add optional estimate orchestration coverage in tests/unit/get-monthly-stats.test.ts
+- [x] T057 [P] [US7] Define RecentPlay and RecentListeningEstimate and calculate them in src/domain/entities/stats.ts and src/domain/services/calculate-recent-listening-estimate.ts
+- [x] T058 [US7] Extend the port and Spotify adapter in src/application/ports/gateways.ts and src/infrastructure/http/spotify-api-gateway.ts
+- [x] T059 [US7] Request user-read-recently-played in src/infrastructure/auth/spotify-auth-gateway.ts
+- [x] T060 [US7] Load the optional estimate without blocking legacy sessions in src/application/use-cases/get-monthly-stats.ts
+- [x] T061 [US7] Render estimate, limitation and neutral logo in src/presentation/components/SoundCapsule.tsx and src/styles/global.css with coverage in tests/integration/spot-stats-page.test.tsx
+- [x] T062 [P] [US7] Add the generated neutral transparent asset at public/spotify-neutral-logo.png
+
+## Phase 16: Recent Estimate Polish & Quality Gates
+
+- [x] T063 Update permission, estimation limits and delivery status in README.md, TASKS.md and AGENTS.md
+- [x] T064 Run formatting, static analysis, tests and production build through npm run check
+
+## Recent Estimate Dependencies
+
+- T053-T056 establish expected behavior before T057-T061.
+- T057 blocks T058 and T060; T058-T059 enable T060; T061 follows the snapshot contract.
+- T062 can proceed in parallel with domain and adapter work; T063-T064 finish the extension.

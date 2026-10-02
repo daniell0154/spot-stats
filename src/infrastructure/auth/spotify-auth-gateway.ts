@@ -35,7 +35,7 @@ export class SpotifyAuthGateway implements AuthGateway {
       client_id: this.config.clientId,
       response_type: 'code',
       redirect_uri: this.config.redirectUri,
-      scope: 'user-read-private user-top-read',
+      scope: 'user-read-private user-top-read user-read-recently-played',
       code_challenge_method: 'S256',
       code_challenge: challenge,
       state,

@@ -141,6 +141,32 @@ marca renomeada, vê "Spotify" na cápsula e navega por uma paleta global deriva
 3. **Given** a página inicial ou o painel, **When** a interface é exibida, **Then** fundo, superfícies,
    destaques e estados de foco usam uma paleta roxa coerente com a logo e com contraste legível.
 
+---
+
+### User Story 7 - Ver uma estimativa de duração recente (Priority: P2)
+
+Como ouvinte autenticado, quero ver na cápsula uma estimativa em minutos baseada nas reproduções
+recentes retornadas para ter uma noção aproximada do tempo representado por esses eventos.
+
+**Why this priority**: Aproxima a cápsula da referência usando um dado calculável, sem apresentar a
+estimativa limitada como histórico mensal exato.
+
+**Independent Test**: Com reproduções recentes conhecidas, a cápsula mostra a soma arredondada das
+durações, quantidade de eventos usados, sinal de aproximação e ressalva sobre a limitação.
+
+**Acceptance Scenarios**:
+
+1. **Given** consentimento para ler reproduções recentes, **When** até 50 eventos são retornados,
+   **Then** a cápsula mostra a soma aproximada das durações integrais em minutos e quantos eventos
+   entraram no cálculo.
+2. **Given** uma faixa pulada ou parcialmente reproduzida, **When** a estimativa é exibida, **Then** o
+   texto esclarece que usa a duração integral das faixas retornadas e não representa tempo real ouvido.
+3. **Given** uma sessão antiga sem a nova permissão ou nenhum evento recente, **When** o painel abre,
+   **Then** os rankings continuam disponíveis e a cápsula informa que a estimativa requer reconexão
+   ou dados recentes.
+4. **Given** qualquer paleta da cápsula, **When** sua marca é exibida, **Then** ela usa a versão neutra
+   transparente da logo com contraste perceptível sem substituir a logo roxa global.
+
 ### Edge Cases
 
 - O retorno de autorização contém erro, código ausente ou estado divergente.
@@ -154,6 +180,8 @@ marca renomeada, vê "Spotify" na cápsula e navega por uma paleta global deriva
 - O artista principal não possui imagem para ocupar a capa da cápsula sonora.
 - O sorteio de cores seleciona paletas próximas ou inadequadas para legibilidade.
 - A imagem de marca não carrega ou é ampliada em uma tela pequena.
+- A lista recente contém faixas parcialmente ouvidas, repetidas, locais ou nenhum evento.
+- Uma sessão criada antes da nova permissão tenta acessar reproduções recentes.
 
 ## Requirements _(mandatory)_
 
@@ -161,7 +189,7 @@ marca renomeada, vê "Spotify" na cápsula e navega por uma paleta global deriva
 
 - **FR-001**: O sistema MUST permitir que o visitante conecte sua conta Spotify com consentimento.
 - **FR-002**: O sistema MUST solicitar somente permissões de leitura necessárias ao perfil básico
-  e aos itens mais ouvidos.
+  aos itens mais ouvidos e às reproduções recentes usadas pela estimativa.
 - **FR-003**: O sistema MUST validar o retorno da autorização antes de criar uma sessão.
 - **FR-004**: O sistema MUST obter o perfil do usuário e até dez artistas e dez faixas de maior
   afinidade no intervalo de aproximadamente quatro semanas.
@@ -194,6 +222,15 @@ marca renomeada, vê "Spotify" na cápsula e navega por uma paleta global deriva
   "Spotify"; MUST NOT manter o rótulo "Spot/Stats" nesse local.
 - **FR-020**: A paleta global do site MUST derivar do roxo e do branco da imagem de marca, mantendo
   contraste legível, foco visível e as paletas aleatórias distintas das duas artes editoriais.
+- **FR-021**: O consentimento MUST incluir leitura das reproduções recentes para calcular a nova
+  estimativa, sem solicitar permissões de alteração ou controle de reprodução.
+- **FR-022**: O sistema MUST calcular a estimativa somando a duração integral de no máximo 50 eventos
+  recentes retornados, arredondar para minutos e informar a quantidade de eventos considerada.
+- **FR-023**: A cápsula MUST identificar o valor com sinal de aproximação e explicar que ele não é
+  tempo real ouvido nem histórico mensal completo; ausência da permissão ou de eventos MUST NOT
+  impedir a exibição dos rankings.
+- **FR-024**: A marca dentro da cápsula MUST usar uma variante neutra transparente da logo; a logo
+  roxa global MUST permanecer inalterada nos demais pontos da interface.
 
 ### Key Entities _(include if feature involves data)_
 
@@ -202,6 +239,9 @@ marca renomeada, vê "Spotify" na cápsula e navega por uma paleta global deriva
 - **Ranked Track**: faixa posicionada por afinidade, com título, artistas, álbum, imagem e duração.
 - **Monthly Snapshot**: composição transitória do perfil, rankings e gêneros para as últimas
   quatro semanas.
+- **Recent Play**: evento recente transitório com faixa, duração integral e horário de reprodução.
+- **Recent Listening Estimate**: soma aproximada em minutos, quantidade de eventos usados e estado
+  de disponibilidade; não representa tempo efetivamente ouvido.
 - **User Session**: autorização temporária necessária para consultar os dados do próprio usuário.
 
 ## Success Criteria _(mandatory)_
@@ -223,6 +263,9 @@ marca renomeada, vê "Spotify" na cápsula e navega por uma paleta global deriva
   diferentes, preservam contraste legível e não mudam durante a navegação entre abas.
 - **SC-009**: Em 100% das telas verificadas, a logo fornecida aparece sem distorção, a cápsula usa o
   texto "Spotify" e os controles continuam legíveis e perceptíveis por teclado em 360 px ou mais.
+- **SC-010**: Em 100% dos conjuntos de teste com eventos recentes, a estimativa corresponde à soma
+  arredondada das durações de até 50 eventos e aparece com ressalva de aproximação; sem acesso ou
+  eventos, o painel principal permanece utilizável.
 
 ## Assumptions
 
@@ -236,3 +279,5 @@ marca renomeada, vê "Spotify" na cápsula e navega por uma paleta global deriva
   representando aproximadamente quatro semanas de afinidade.
 - O usuário configurará previamente um aplicativo no painel de desenvolvedor do Spotify.
 - A interface será oferecida em português do Brasil.
+- A estimativa recente considera a duração integral das faixas retornadas; o provedor não informa
+  quanto de cada faixa foi efetivamente ouvido, e o limite recente não equivale a um mês completo.

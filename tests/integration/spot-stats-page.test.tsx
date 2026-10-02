@@ -58,7 +58,26 @@ describe('SpotStatsPage', () => {
     expect(screen.getByText(/aproximadamente 4 semanas/i)).toBeInTheDocument();
     expect(screen.getByText('Spotify')).toBeInTheDocument();
     expect(screen.queryByText('Spot/Stats')).not.toBeInTheDocument();
+    expect(screen.getByText('≈ 5 minutos')).toBeInTheDocument();
+    expect(screen.getByText(/2 reproduções recentes/i)).toBeInTheDocument();
+    expect(screen.getByText(/não é tempo real ouvido/i)).toBeInTheDocument();
+    expect(screen.getByTestId('capsule-brand-logo')).toHaveAttribute(
+      'src',
+      '/spotify-neutral-logo.png',
+    );
     expect(getStats.execute).toHaveBeenCalledOnce();
+  });
+
+  it('mantém a cápsula útil sem permissão ou eventos recentes', async () => {
+    const getStats = {
+      execute: vi.fn().mockResolvedValue({ ...snapshot, recentListeningEstimate: null }),
+    } as unknown as GetMonthlyStats;
+    render(<SpotStatsPage auth={auth(true)} getStats={getStats} />);
+
+    fireEvent.click(await screen.findByRole('tab', { name: 'Cápsula sonora' }));
+
+    expect(screen.getByText(/reconecte para incluir a estimativa/i)).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: 'Minha cápsula sonora' })).toBeInTheDocument();
   });
 
   it('mantém paletas distintas e estáveis ao alternar entre as artes', async () => {

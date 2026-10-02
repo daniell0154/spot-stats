@@ -18,6 +18,8 @@ The executable SDD backlog is [specs/001-spotify-monthly-stats/tasks.md](specs/0
 - [x] Stable distinct random palettes for both authenticated artwork views
 - [x] Shared renamed Spotify logo across site chrome and sound capsule
 - [x] Logo-derived purple global palette with accessible contrast
+- [x] Optional recent-listening duration estimate with explicit limitations
+- [x] Neutral transparent Spotify logo used only inside sound-capsule cards
 
 Task IDs, dependencies, acceptance criteria and file-level traceability are maintained in the
 feature backlog to keep one source of delivery truth.

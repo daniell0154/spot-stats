@@ -50,7 +50,7 @@ export function SoundCapsule({ snapshot, palette }: SoundCapsuleProps) {
       <div className="capsule-body">
         <header className="capsule-edition">
           <span className="capsule-brand">
-            <img src="/spotify-purple-logo.png" alt="" />
+            <img data-testid="capsule-brand-logo" src="/spotify-neutral-logo.png" alt="" />
             Spotify
           </span>
           <time>{currentEditionLabel()}</time>
@@ -108,6 +108,24 @@ export function SoundCapsule({ snapshot, palette }: SoundCapsuleProps) {
             <>
               <span>Destaques retornados</span>
               <strong>{itemCount} itens</strong>
+            </>
+          )}
+        </div>
+
+        <div className="capsule-listening">
+          {snapshot.recentListeningEstimate ? (
+            <>
+              <span>Duração estimada dos eventos recentes</span>
+              <strong>≈ {snapshot.recentListeningEstimate.minutes} minutos</strong>
+              <small>
+                {snapshot.recentListeningEstimate.playCount} reproduções recentes · duração integral
+                das faixas; não é tempo real ouvido nem mês completo.
+              </small>
+            </>
+          ) : (
+            <>
+              <span>Estimativa recente indisponível</span>
+              <p>Reconecte para incluir a estimativa ou ouça mais faixas recentemente.</p>
             </>
           )}
         </div>

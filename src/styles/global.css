@@ -947,6 +947,35 @@ a {
   letter-spacing: -0.055em;
   text-transform: capitalize;
 }
+.capsule-listening {
+  margin-top: 30px;
+  padding-top: 24px;
+  border-top: 1px solid color-mix(in srgb, var(--art-ink) 18%, transparent);
+}
+.capsule-listening span,
+.capsule-listening strong,
+.capsule-listening small {
+  display: block;
+}
+.capsule-listening span {
+  font-size: 13px;
+  font-weight: 700;
+}
+.capsule-listening strong {
+  margin-top: 5px;
+  color: var(--art-accent);
+  font-size: clamp(28px, 6vw, 42px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+.capsule-listening small,
+.capsule-listening p {
+  max-width: 440px;
+  margin: 10px 0 0;
+  color: var(--art-soft);
+  font-size: 10px;
+  line-height: 1.55;
+}
 .capsule-period {
   margin: 30px 0 0;
   color: var(--art-soft);

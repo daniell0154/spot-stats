@@ -15,14 +15,17 @@
 - `getTopArtists(accessToken, limit=10): Promise<RankedArtist[]>` requests `short_term`, preserves
   ranking order and complements empty genres from official per-artist details when available.
 - `getTopTracks(accessToken, limit=10): Promise<RankedTrack[]>` requests `short_term`.
+- `getRecentlyPlayed(accessToken, limit=50): Promise<RecentPlay[]>` requests recent history, maps
+  only track id, full duration and playback timestamp, and never returns more than 50 events.
 - All methods translate 401, 403, 429 and transport/provider failures to stable application errors.
 
 ## GetMonthlyStats Use Case
 
 - Input: none; identity derives from the authorized session.
 - Output: `MonthlySnapshot`.
-- Orchestration: obtain a valid token, request profile/artists/tracks concurrently, calculate at
-  most five genre statistics, and return immutable view data.
+- Orchestration: obtain a valid token, request profile/artists/tracks/recent events concurrently,
+  calculate at most five genre statistics and the optional recent-duration estimate, and return
+  immutable view data. A forbidden recent-history read becomes `null` without suppressing the core snapshot.
 - Retry: after an authorization failure, refresh at most once and repeat the failed operation.
 
 ## Authenticated Tabs UI
@@ -40,3 +43,6 @@
 - The capsule brand reads `Spotify` beside the shared logo; the product remains named Spot Stats in
   its accessible header label and document title.
 - Global chrome uses the logo-derived purple palette while editorial random palettes stay distinct.
+- The capsule renders an available estimate as approximate minutes plus event count and limitation;
+  otherwise it explains that recent data or reconnection is required.
+- Only the capsule uses `/spotify-neutral-logo.png`; global brand placements keep the purple asset.

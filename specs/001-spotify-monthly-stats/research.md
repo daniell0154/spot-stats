@@ -90,3 +90,29 @@
 - **Alternatives considered**: converter para outro formato (perda ou trabalho sem benefício);
   duplicar a imagem por componente (manutenção desnecessária); substituir todas as paletas editoriais
   por roxo (eliminaria a variedade pedida anteriormente).
+
+## Decision 12: Estimativa limitada por reproduções recentes
+
+- **Decision**: Solicitar `user-read-recently-played`, ler no máximo 50 eventos e somar a duração
+  integral das faixas retornadas, arredondando para minutos e exibindo quantidade e ressalva.
+- **Rationale**: É o único recorte oficial disponível para aproximar duração sem inventar um total
+  mensal; o limite e o uso da duração integral ficam explícitos ao usuário.
+- **Alternatives considered**: chamar o valor de minutos ouvidos (impreciso); persistir reprodução
+  continuamente (maior coleta e infraestrutura); esconder a limitação (enganoso).
+
+## Decision 13: Compatibilidade com sessões sem o novo escopo
+
+- **Decision**: Tratar a recusa específica de acesso ao histórico recente como estimativa
+  indisponível, preservando perfil e rankings e orientando reconexão.
+- **Rationale**: Tokens emitidos antes da mudança não recebem automaticamente novos escopos.
+- **Alternatives considered**: invalidar todas as sessões (interrupção desnecessária); falhar o
+  painel inteiro (recurso secundário bloquearia o valor principal).
+
+## Decision 14: Logo neutra exclusiva dos cards
+
+- **Decision**: Gerar uma variante grafite transparente, manter a geometria e ondas brancas da logo
+  fornecida e usá-la somente na cápsula sonora.
+- **Rationale**: Grafite é estável sobre as paletas aleatórias; a variante roxa continua definindo a
+  identidade global.
+- **Alternatives considered**: aplicar a logo roxa em toda paleta (contraste variável); trocar a logo
+  global por neutra (contraria a identidade aprovada); usar filtro CSS (resultado inconsistente).

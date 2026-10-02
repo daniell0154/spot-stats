@@ -33,11 +33,24 @@ export interface GenreStat {
   readonly percentage: number;
 }
 
+export interface RecentPlay {
+  readonly trackId: string;
+  readonly durationMs: number;
+  readonly playedAt: string;
+}
+
+export interface RecentListeningEstimate {
+  readonly minutes: number;
+  readonly playCount: number;
+  readonly sampleLimit: 50;
+}
+
 export interface MonthlySnapshot {
   readonly profile: UserProfile;
   readonly artists: readonly RankedArtist[];
   readonly tracks: readonly RankedTrack[];
   readonly genres: readonly GenreStat[];
+  readonly recentListeningEstimate: RecentListeningEstimate | null;
   readonly periodLabel: 'Aproximadamente as últimas 4 semanas';
 }
 

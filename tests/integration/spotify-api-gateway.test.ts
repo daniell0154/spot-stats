@@ -2,6 +2,32 @@ import { describe, expect, it, vi } from 'vitest';
 import { SpotifyApiGateway } from '../../src/infrastructure/http/spotify-api-gateway';
 
 describe('SpotifyApiGateway', () => {
+  it('mapeia no máximo 50 reproduções recentes para dados internos mínimos', async () => {
+    const request = vi.fn().mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          items: [
+            {
+              played_at: '2026-10-01T10:00:00Z',
+              track: { id: 'recent', duration_ms: 185_000 },
+            },
+          ],
+        }),
+        { status: 200 },
+      ),
+    );
+
+    const result = await new SpotifyApiGateway(request).getRecentlyPlayed('token', 75);
+
+    expect(result).toEqual([
+      { trackId: 'recent', durationMs: 185_000, playedAt: '2026-10-01T10:00:00Z' },
+    ]);
+    expect(request).toHaveBeenCalledWith(
+      'https://api.spotify.com/v1/me/player/recently-played?limit=50',
+      expect.objectContaining({ headers: { Authorization: 'Bearer token' } }),
+    );
+  });
+
   it('mapeia artistas e preserva a ordem do provedor', async () => {
     const request = vi.fn(function (this: unknown) {
       expect(this).toBeUndefined();

@@ -15,6 +15,11 @@ A identidade global usa a logo roxa fornecida, mantida como `public/spotify-purp
 cabeçalho, favicon, conexão e cápsula sonora. A paleta de navegação deriva do roxo e do branco da
 imagem sem remover a variação cromática aleatória das duas composições editoriais.
 
+Com a permissão `user-read-recently-played`, a cápsula também soma as durações integrais de até 50
+reproduções recentes e apresenta o resultado como estimativa. O valor não mede faixas puladas ou
+parcialmente ouvidas e não representa o total de um mês. Sessões antigas continuam funcionando sem
+essa estimativa até que o usuário se reconecte e conceda o novo escopo.
+
 ## Começar
 
 1. Crie um app no [Spotify Developer Dashboard](https://developer.spotify.com/dashboard).
@@ -67,6 +72,8 @@ em `.agents/skills/`.
 ## Limitações dos dados
 
 - O Spotify não fornece minutos ou número de reproduções mensais pelo endpoint de top items; o
-  retrato e a cápsula usam apenas rankings de afinidade e contagens dos itens retornados.
+  retrato usa rankings de afinidade e a cápsula identifica separadamente sua estimativa limitada.
+- A estimativa da cápsula soma a duração completa de no máximo 50 eventos recentes; ela não sabe
+  quanto de cada faixa foi ouvido nem cobre necessariamente quatro semanas.
 - Gêneros continuam dependentes da classificação oficial do Spotify e podem permanecer vazios.
 - O app não armazena histórico nem compara meses civis.

@@ -13,6 +13,8 @@ mesmos artistas e oferece uma visão detalhada e um retrato mensal inspirado em 
 será uma SPA React/TypeScript organizada em Clean Architecture, com domínio e casos de uso puros,
 portas explícitas, adapters para OAuth/Web API e apresentação isolada. A identidade visual usa a
 imagem roxa fornecida como ativo público no cabeçalho, favicon e cápsula, com paleta global derivada.
+Uma leitura adicional de até 50 reproduções recentes alimenta uma estimativa opcional de duração na
+cápsula, claramente separada do recorte de afinidade e sem bloquear os rankings em sessões antigas.
 
 ## Technical Context
 
@@ -33,7 +35,8 @@ ou após dez minutos; sem banco de dados
 
 **Constraints**: sem client secret; redirect local em `127.0.0.1`; somente escopos mínimos; WCAG AA
 
-**Scale/Scope**: um usuário por sessão, três abas autenticadas, 10 artistas, 10 faixas, sem persistência
+**Scale/Scope**: um usuário por sessão, três abas autenticadas, 10 artistas, 10 faixas, até 50 eventos
+recentes, sem persistência
 
 ## Constitution Check
 
@@ -119,6 +122,12 @@ em quatro camadas torna regras, orquestração, detalhes do Spotify e React subs
   rótulo editorial para "Spotify", enquanto o nome do produto continua Spot Stats.
 - As variáveis globais de cor derivam do roxo e branco da logo; as paletas sorteadas das artes
   permanecem distintas e independentes para preservar a variação já aprovada.
+- `SpotifyStatsGateway.getRecentlyPlayed` traduz no máximo 50 eventos em `RecentPlay`; a aplicação
+  soma durações integrais e arredonda o total, mantendo payloads externos na infraestrutura.
+- `GetMonthlyStats` trata ausência do novo escopo como dado opcional para que sessões anteriores não
+  percam rankings; outros erros continuam seguindo o contrato resiliente existente.
+- `SoundCapsule` apresenta a estimativa com `≈`, contagem de eventos e ressalva de cobertura, usando
+  `public/spotify-neutral-logo.png`; a logo roxa permanece no cabeçalho, favicon e login.
 
 ## Complexity Tracking
 

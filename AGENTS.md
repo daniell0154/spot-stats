@@ -29,9 +29,11 @@ logic. Do not create a single-file implementation.
 ## Spotify rules
 
 - Use Authorization Code with PKCE (S256); never use implicit grant or a client secret in browser code.
-- Request only `user-read-private user-top-read`.
+- Request only `user-read-private user-top-read user-read-recently-played`.
 - For local redirects use `http://127.0.0.1:5173/callback`, never `localhost`.
 - Describe `short_term` as approximately four weeks, not an exact calendar month or play count.
+- Describe summed recent-track durations as an estimate over at most 50 returned events, never as
+  exact listened time or a complete calendar-month total.
 - Never log or commit access tokens, refresh tokens, verifiers, states or credentials.
 - Handle 401 with at most one refresh and 429 according to `Retry-After`.
 
